@@ -8,6 +8,7 @@
 
 // Global settings
 "require view.trafira.settings as settings";
+"require view.trafira.alice as alice";
 
 // Sections
 "require view.trafira.section as section";
@@ -429,6 +430,18 @@ const EntryPoint = {
       return ["settings"];
     };
     settings.createSettingsContent(settingsSection, uiCapabilities);
+
+    const aliceSection = trafiraMap.section(
+      form.TypedSection,
+      "alice",
+      _("Alice Mode"),
+    );
+    aliceSection.anonymous = true;
+    aliceSection.addremove = false;
+    aliceSection.cfgsections = function () {
+      return ["settings"];
+    };
+    alice.createAliceContent(aliceSection);
 
     const diagnosticSection = trafiraMap.section(
       form.TypedSection,

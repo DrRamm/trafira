@@ -265,6 +265,64 @@ assert_contains "$NFT_LOG" $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_inte
 assert_contains "$NFT_LOG" $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_interfaces\t{ tun0 }' "runtime base from UCI tun0 interface"
 assert_contains "$NFT_LOG" $'nft\tinsert\trule\tinet\tTrafiraTable\tmangle\tudp\tdport\t123\treturn' "runtime base from UCI ntp exclusion"
 
+cat >"$WORK_DIR/alice-base.state" <<'EOF_UCI'
+trafira.settings=settings
+trafira.settings.source_network_interfaces=br-lan
+trafira.settings.alice_mode_enabled=1
+EOF_UCI
+: > "$NFT_LOG"
+TRAFIRA_UCI_STATE_FILE="$WORK_DIR/alice-base.state" \
+  nft_ucode nft-create-runtime-base-from-uci TrafiraTable localv4 trafira_subnets trafira_ports trafira_ip_ports trafira_interfaces 0x00100000 0x00200000 198.18.0.0/15 1602
+assert_contains "$NFT_LOG" $'nft\tadd\tset\tinet\tTrafiraTable\ttrafira_alice_macs\t{ type ether_addr; }' "Alice MAC set"
+assert_contains "$NFT_LOG" $'nft\tadd\tset\tinet\tTrafiraTable\ttrafira_alice_interfaces\t{ type ifname; flags interval; }' "Alice interface set"
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tiifname\t@trafira_alice_interfaces\treturn' "Alice allow list keeps listed interfaces"
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tether\tsaddr\t@trafira_alice_macs\treturn' "Alice allow list keeps listed MACs"
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tip6\tsaddr\t@trafira_alice_sources6\treturn' "Alice allow list keeps listed IPv6"
+assert_line_before "$NFT_LOG" \
+  $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tip\tsaddr\t@trafira_alice_sources\treturn' \
+  $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tcounter\taccept' \
+  "Alice allow list bypasses unlisted clients last"
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\talice_dns_gate\tmeta\tl4proto\t{\ttcp,\tudp\t}\tcounter\tredirect\tto\t:1604' "Alice unlisted DNS uses real-answer inbound"
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\tdns_redirect\tiifname\t@trafira_interfaces\tudp\tdport\t53\tjump\talice_dns_gate' "Alice DNS gate jump"
+assert_line_before "$NFT_LOG" \
+  $'nft\tadd\trule\tinet\tTrafiraTable\tmangle\tiifname\t@trafira_interfaces\tjump\talice_gate' \
+  $'nft\tadd\trule\tinet\tTrafiraTable\tmangle\tjump\tpriority_rules' \
+  "Alice gate precedes section priority rules"
+
+cat >"$WORK_DIR/alice-deny.state" <<'EOF_UCI'
+trafira.settings=settings
+trafira.settings.source_network_interfaces=br-lan
+trafira.settings.alice_mode_enabled=1
+trafira.settings.alice_list_mode=deny
+EOF_UCI
+: > "$NFT_LOG"
+TRAFIRA_UCI_STATE_FILE="$WORK_DIR/alice-deny.state" \
+  nft_ucode nft-create-runtime-base-from-uci TrafiraTable localv4 trafira_subnets trafira_ports trafira_ip_ports trafira_interfaces 0x00100000 0x00200000 198.18.0.0/15 1602
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tip\tsaddr\t@trafira_alice_sources\tcounter\taccept' "Alice deny list bypasses listed clients"
+assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\talice_dns_gate\tether\tsaddr\t@trafira_alice_macs\tmeta\tl4proto\t{\ttcp,\tudp\t}\tcounter\tredirect\tto\t:1604' "Alice deny list sends listed DNS to real-answer inbound"
+if grep -Fxq $'nft\tadd\trule\tinet\tTrafiraTable\talice_gate\tcounter\taccept' "$NFT_LOG"; then
+  fail "Alice deny list must keep unlisted clients on Trafira"
+fi
+
+cat >"$WORK_DIR/alice-sources.json" <<'JSON'
+{"settings":{"alice_mode_enabled":"1","alice_ips":["192.168.1.10/32","2001:db8::10/128"],"alice_macs":["AA:BB:CC:DD:EE:FF"],"alice_interfaces":["wg0","awg*","awg1"]},"section":[]}
+JSON
+: > "$NFT_LOG"
+nft_ucode nft-populate-runtime-sets-fixture "$WORK_DIR/alice-sources.json" 1 "" TrafiraTable trafira_subnets trafira_ports trafira_ip_ports trafira_interfaces localv4 0x00100000
+assert_contains "$NFT_LOG" $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_alice_sources\t{ 192.168.1.10/32 }' "Alice IPv4 allowed source"
+assert_contains "$NFT_LOG" $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_alice_sources6\t{ 2001:db8::10/128 }' "Alice IPv6 allowed source"
+assert_contains "$NFT_LOG" $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_alice_macs\t{ aa:bb:cc:dd:ee:ff }' "Alice MAC element"
+assert_contains "$NFT_LOG" $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_alice_interfaces\t{ "wg0", "awg*" }' "Alice interface elements"
+
+cat >"$WORK_DIR/alice-empty.json" <<'JSON'
+{"settings":{"alice_mode_enabled":"1"},"section":[]}
+JSON
+: > "$NFT_LOG"
+nft_ucode nft-populate-runtime-sets-fixture "$WORK_DIR/alice-empty.json" 1 "" TrafiraTable trafira_subnets trafira_ports trafira_ip_ports trafira_interfaces localv4 0x00100000
+if grep -Fq $'nft\tadd\telement\tinet\tTrafiraTable\ttrafira_alice_' "$NFT_LOG"; then
+  fail "empty Alice lists must leave Alice sets empty"
+fi
+
 : > "$NFT_LOG"
 nft_ucode nft-create-runtime-output-rules TrafiraTable localv4 trafira_subnets trafira_ports trafira_ip_ports 0x00100000 198.18.0.0/15
 assert_contains "$NFT_LOG" $'nft\tadd\trule\tinet\tTrafiraTable\tmangle_output\tip\tdaddr\t@trafira_subnets\tmeta\tl4proto\ttcp\tmeta\tmark\tset\t0x00100000\tcounter' "runtime output common tcp"

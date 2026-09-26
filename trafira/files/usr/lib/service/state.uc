@@ -5,6 +5,7 @@ let uci_core = require("core.uci");
 let netstat = require("core.netstat");
 let rule_config = require("config.rule");
 let connections = require("config.connections");
+let alice_config = require("config.alice");
 let zapret_validator = require("providers.zapret.validator");
 let zapret2_validator = require("providers.zapret2.validator");
 let byedpi_validator = require("providers.byedpi.validator");
@@ -891,6 +892,7 @@ function nft_runtime_signature_body(settings, sections) {
 
     body = signature_add_value(body, "settings.source_network_interfaces", option(settings, "source_network_interfaces", "br-lan"));
     body = signature_add_value(body, "settings.exclude_ntp", bool_option(settings, "exclude_ntp", false) ? "1" : "0");
+    body = alice_config.signature_body(settings, signature_add_value, body);
 
     for (let section in sections) {
         section = object_or_empty(section);
@@ -1393,6 +1395,8 @@ function append_sing_box_server_signature_body(body, server) {
 function sing_box_signature_body(settings, sections, servers, mwan3_active) {
     settings = object_or_empty(settings);
     let body = "";
+
+    body = signature_add_value(body, "settings.alice_mode_enabled", bool_option(settings, "alice_mode_enabled", false) ? "1" : "0");
 
     body = signature_add_value(body, "settings.dns_type", option(settings, "dns_type", "doh"));
     body = signature_add_value(body, "settings.dns_strategy", option(settings, "dns_strategy", "prefer_ipv4"));
@@ -1916,6 +1920,10 @@ else if (mode == "nft-signature")
 else if (mode == "nft-signature-fixture") {
     let data = fixture_data(ARGV[1]);
     exit(print_signature_hash(nft_runtime_signature_body(fixture_settings(data), fixture_section_list(data))) ? 0 : 1);
+}
+else if (mode == "nft-signature-body-fixture") {
+    let data = fixture_data(ARGV[1]);
+    print(nft_runtime_signature_body(fixture_settings(data), fixture_section_list(data)));
 }
 else if (mode == "zapret-queue-signature")
     exit(print_signature_hash(action_queue_signature_body(uci_sections("section"), "zapret", "zapret_queue.section")) ? 0 : 1);

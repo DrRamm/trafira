@@ -856,6 +856,263 @@ function getProxyUrlName(url) {
   }
 }
 
+// src/trafira/tabs/dashboard/helpers/aliceDevices.ts
+function getAliceDeviceLabel(device) {
+  return device.name || device.ips[0] || device.mac || device.interface;
+}
+function groupAliceDevices(devices) {
+  const groups = {
+    trafira: [],
+    direct: [],
+    not_captured: []
+  };
+  devices.forEach((device) => groups[device.status]?.push(device));
+  Object.values(groups).forEach(
+    (group) => group.sort(
+      (a, b) => Number(b.online) - Number(a.online) || getAliceDeviceLabel(a).localeCompare(getAliceDeviceLabel(b))
+    )
+  );
+  return groups;
+}
+function groupDevicesByInterface(devices) {
+  const result = [];
+  devices.forEach((device) => {
+    let bucket = result.find((item) => item.name === device.interface);
+    if (!bucket) {
+      bucket = { name: device.interface, devices: [] };
+      result.push(bucket);
+    }
+    bucket.devices.push(device);
+  });
+  return result;
+}
+function getAliceDeviceAddress(device) {
+  if (!device.name) {
+    return "";
+  }
+  return device.ips.find((ip) => !ip.includes(":")) || device.ips[0] || "";
+}
+function getAliceMatchTag(matchedBy) {
+  if (matchedBy?.startsWith("ip:")) {
+    return "IP";
+  }
+  if (matchedBy?.startsWith("mac:")) {
+    return "MAC";
+  }
+  return "";
+}
+function formatHandshakeAge(lastHandshake, nowSeconds) {
+  if (!lastHandshake) {
+    return "";
+  }
+  const age = Math.max(0, nowSeconds - lastHandshake);
+  if (age < 60) {
+    return _("%d s").replace("%d", String(age));
+  }
+  if (age < 3600) {
+    return _("%d min").replace("%d", String(Math.floor(age / 60)));
+  }
+  if (age < 86400) {
+    return _("%d h").replace("%d", String(Math.floor(age / 3600)));
+  }
+  return _("%d d").replace("%d", String(Math.floor(age / 86400)));
+}
+function formatAliceDeviceDetails(device) {
+  return [
+    ...device.ips,
+    device.mac,
+    device.interface,
+    device.matched_by ? _("Matched by %s").replace("%s", device.matched_by) : ""
+  ].filter(Boolean).join("\n");
+}
+
+// src/trafira/tabs/dashboard/partials/renderAliceDevices.ts
+var BLOCK = "fkp_dashboard-page__alice";
+var GROUPS = [
+  {
+    status: "trafira",
+    title: () => _("Via Trafira"),
+    hint: () => _("Routing rules and fake DNS apply")
+  },
+  {
+    status: "direct",
+    title: () => _("Direct"),
+    hint: () => _("Bypass Trafira; DNS returns real addresses")
+  },
+  {
+    status: "not_captured",
+    title: () => _("Not captured"),
+    hint: () => _("Interface is not in Source Network Interface")
+  }
+];
+function renderWarning(warning) {
+  const messages = {
+    interface_not_captured: _(
+      "Interface %s is in the device list but not selected in Source Network Interface, so its rule has no effect."
+    ).replace("%s", warning.value),
+    empty_allow_list: _("The allow list is empty, so no devices use Trafira."),
+    neighbor_source_unavailable: _(
+      "LAN device data is unavailable; LAN devices may be missing."
+    ),
+    neighbor_source_partial: _(
+      "Some LAN neighbor entries were invalid and skipped."
+    ),
+    wireguard_source_unavailable: _(
+      "WireGuard peer data is unavailable; peers may be missing."
+    ),
+    wireguard_source_partial: _(
+      "Some WireGuard peer entries were invalid and skipped."
+    ),
+    dhcp_source_unavailable: _(
+      "DHCP leases are unavailable; device names may be missing."
+    ),
+    dhcp_source_partial: _(
+      "Some DHCP lease entries were invalid and skipped."
+    )
+  };
+  const text = messages[warning.code];
+  return E("div", { class: `${BLOCK}__warning`, role: "alert" }, text);
+}
+function renderHandshake(device, nowSeconds) {
+  const handshake = device.kind === "wireguard" ? formatHandshakeAge(device.last_handshake, nowSeconds) : "";
+  return handshake ? E(
+    "span",
+    { title: _("Last WireGuard handshake") },
+    _("%s ago").replace("%s", handshake)
+  ) : "";
+}
+function renderDevice(device, nowSeconds) {
+  const tag = getAliceMatchTag(device.matched_by);
+  return E(
+    "li",
+    { class: `${BLOCK}__device`, title: formatAliceDeviceDetails(device) },
+    [
+      E(
+        "span",
+        {
+          class: `${BLOCK}__dot ${device.online ? `${BLOCK}__dot--online` : ""}`
+        },
+        ""
+      ),
+      E(
+        "span",
+        { class: `${BLOCK}__device-name` },
+        getAliceDeviceLabel(device)
+      ),
+      E(
+        "span",
+        { class: `${BLOCK}__device-address` },
+        getAliceDeviceAddress(device)
+      ),
+      E("span", { class: `${BLOCK}__tag` }, tag),
+      E(
+        "span",
+        { class: `${BLOCK}__device-activity` },
+        renderHandshake(device, nowSeconds)
+      )
+    ]
+  );
+}
+function renderInterfaceBuckets(devices, context) {
+  return groupDevicesByInterface(devices).map(
+    (bucket) => E("div", { class: `${BLOCK}__interface` }, [
+      E("div", { class: `${BLOCK}__interface-name` }, bucket.name),
+      E(
+        "ul",
+        { class: `${BLOCK}__devices` },
+        bucket.devices.map(
+          (device) => renderDevice(device, context.nowSeconds)
+        )
+      )
+    ])
+  );
+}
+function renderGroup(group, devices, context) {
+  const online = devices.filter((device) => device.online);
+  const offline = devices.filter((device) => !device.online);
+  const offlineOpen = Boolean(context.expandedOffline[group.status]);
+  return E(
+    "div",
+    {
+      class: `${BLOCK}__group ${BLOCK}__group--${group.status}`,
+      title: group.hint()
+    },
+    [
+      E("div", { class: `${BLOCK}__group-title` }, [
+        E("b", {}, group.title()),
+        E(
+          "span",
+          { class: `${BLOCK}__group-count` },
+          _("%d of %d online").replace("%d", String(online.length)).replace("%d", String(devices.length))
+        )
+      ]),
+      ...renderInterfaceBuckets(online, context),
+      ...offline.length ? [
+        E(
+          "details",
+          {
+            class: `${BLOCK}__offline`,
+            ...offlineOpen ? { open: true } : {},
+            toggle: (event) => context.onToggleOffline(
+              group.status,
+              event.target.open
+            )
+          },
+          [
+            E(
+              "summary",
+              { class: `${BLOCK}__offline-summary` },
+              _("Offline: %d").replace("%d", String(offline.length))
+            ),
+            ...renderInterfaceBuckets(offline, context)
+          ]
+        )
+      ] : [],
+      ...devices.length ? [] : [E("div", { class: `${BLOCK}__empty` }, _("No devices"))]
+    ]
+  );
+}
+function renderAliceDevices({
+  loading: loading2,
+  failed: failed2,
+  report,
+  nowSeconds,
+  expandedOffline,
+  onToggleOffline
+}) {
+  if (loading2 || report && (!report.enabled || !report.dashboard_visible)) {
+    return E("div", { class: `${BLOCK} ${BLOCK}--hidden` }, "");
+  }
+  if (failed2 || !report?.enabled) {
+    return E(
+      "div",
+      { class: `${BLOCK} ${BLOCK}--failed` },
+      _("Alice Mode devices are currently unavailable")
+    );
+  }
+  const groups = groupAliceDevices(report.devices);
+  const visibleGroups = GROUPS.filter(
+    (group) => group.status !== "not_captured" || groups.not_captured.length
+  );
+  return E("div", { class: BLOCK }, [
+    E("div", { class: `${BLOCK}__header` }, [
+      E("b", { class: `${BLOCK}__title` }, _("Alice Mode"))
+    ]),
+    ...report.warnings.map(renderWarning),
+    E(
+      "div",
+      { class: `${BLOCK}__groups` },
+      visibleGroups.map(
+        (group) => renderGroup(group, groups[group.status], {
+          nowSeconds,
+          expandedOffline,
+          onToggleOffline
+        })
+      )
+    )
+  ]);
+}
+
 // src/trafira/tabs/dashboard/partials/renderFlagEmojis.ts
 var FLAG_EMOJI_PATTERN = /([\u{1f1e6}-\u{1f1ff}]{2}|\u{1f3f4}[\u{e0061}-\u{e007a}]+\u{e007f})/gu;
 var EXACT_FLAG_EMOJI_PATTERN = /^([\u{1f1e6}-\u{1f1ff}]{2}|\u{1f3f4}[\u{e0061}-\u{e007a}]+\u{e007f})$/u;
@@ -2301,6 +2558,20 @@ function render() {
             subscriptionUpdating: false,
             selectorSwitchingTag: void 0
           })
+        ),
+        // Alice Mode devices
+        E(
+          "div",
+          { id: "dashboard-alice-devices" },
+          renderAliceDevices({
+            loading: true,
+            failed: false,
+            report: null,
+            nowSeconds: 0,
+            expandedOffline: {},
+            onToggleOffline: () => {
+            }
+          })
         )
       ])
     ]
@@ -2444,6 +2715,7 @@ var Trafira;
     AvailableMethods2["CHECK_LOGS"] = "check_logs";
     AvailableMethods2["CHECK_SING_BOX_LOGS"] = "check_sing_box_logs";
     AvailableMethods2["GET_SYSTEM_INFO"] = "get_system_info";
+    AvailableMethods2["GET_ALICE_DEVICES"] = "get_alice_devices";
     AvailableMethods2["GET_SERVER_CAPABILITIES"] = "get_server_capabilities";
     AvailableMethods2["GET_UI_CAPABILITIES"] = "get_ui_capabilities";
     AvailableMethods2["GET_UI_STATE"] = "get_ui_state";
@@ -2726,6 +2998,9 @@ var TrafiraShellMethods = {
   checkSingBoxLogs: async () => callBaseMethod(Trafira.AvailableMethods.CHECK_SING_BOX_LOGS),
   getSystemInfo: async () => callBaseMethod(
     Trafira.AvailableMethods.GET_SYSTEM_INFO
+  ),
+  getAliceDevices: async () => callBaseMethod(
+    Trafira.AvailableMethods.GET_ALICE_DEVICES
   ),
   getServerCapabilities: async () => callBaseMethod(
     Trafira.AvailableMethods.GET_SERVER_CAPABILITIES
@@ -4472,6 +4747,11 @@ var initialStore = {
       trafiraStatus: ""
     }
   },
+  aliceDevicesWidget: {
+    loading: true,
+    failed: false,
+    data: null
+  },
   sectionsWidget: {
     loading: true,
     failed: false,
@@ -5570,6 +5850,37 @@ async function fetchDashboardSectionsOnce(mountId) {
     return false;
   }
 }
+async function fetchAliceDevices(mountId) {
+  try {
+    const response = await TrafiraShellMethods.getAliceDevices();
+    if (!dashboardMounted || mountId !== dashboardMountId) {
+      return;
+    }
+    if (!response.success || !response.data || typeof response.data !== "object") {
+      throw new Error("failed to fetch Alice Mode devices");
+    }
+    store.set({
+      aliceDevicesWidget: {
+        loading: false,
+        failed: false,
+        data: response.data
+      }
+    });
+  } catch (error) {
+    logger.error("[DASHBOARD]", "fetchAliceDevices: failed", error);
+    if (!dashboardMounted || mountId !== dashboardMountId) {
+      return;
+    }
+    const current = store.get().aliceDevicesWidget;
+    store.set({
+      aliceDevicesWidget: {
+        loading: false,
+        failed: !current.data,
+        data: current.data
+      }
+    });
+  }
+}
 async function fetchDashboardSections(options = {}) {
   if (sectionsRefreshPromise) {
     if (options.force) {
@@ -5922,9 +6233,11 @@ function startDashboardDataUpdates() {
   dashboardDataUpdatesStarted = true;
   const dataUpdatesId = ++dashboardDataUpdatesId;
   void fetchDashboardSections({ force: true });
+  void fetchAliceDevices(dashboardMountId);
   void connectToClashSockets(dataUpdatesId);
   sectionsRefreshTimer = setInterval(() => {
     void fetchDashboardSections();
+    void fetchAliceDevices(dashboardMountId);
   }, SECTIONS_REFRESH_INTERVAL_MS);
 }
 function syncDashboardServiceAvailability() {
@@ -6793,6 +7106,26 @@ async function renderServicesInfoWidget() {
   });
   container.replaceChildren(renderedWidget);
 }
+var aliceExpandedOffline = {};
+async function renderAliceDevicesWidget() {
+  const container = document.getElementById("dashboard-alice-devices");
+  if (!container) {
+    return;
+  }
+  const { aliceDevicesWidget } = store.get();
+  container.replaceChildren(
+    renderAliceDevices({
+      loading: aliceDevicesWidget.loading,
+      failed: aliceDevicesWidget.failed,
+      report: aliceDevicesWidget.data,
+      nowSeconds: Math.floor(Date.now() / 1e3),
+      expandedOffline: aliceExpandedOffline,
+      onToggleOffline: (status, open) => {
+        aliceExpandedOffline[status] = open;
+      }
+    })
+  );
+}
 async function onStoreUpdate(next, prev, diff) {
   if (diff.sectionsWidget) {
     const inlineUpdated = canUpdateLatencyProgressInline(
@@ -6811,6 +7144,9 @@ async function onStoreUpdate(next, prev, diff) {
   }
   if (diff.systemInfoWidget) {
     renderSystemInfoWidget();
+  }
+  if (diff.aliceDevicesWidget) {
+    renderAliceDevicesWidget();
   }
   if (diff.servicesInfoWidget) {
     syncDashboardServiceAvailability();
@@ -6839,6 +7175,7 @@ async function onPageMount() {
   void renderTrafficTotalWidget();
   void renderSystemInfoWidget();
   void renderServicesInfoWidget();
+  void renderAliceDevicesWidget();
   syncDashboardServiceAvailability();
   if (hasRuntimeSnapshot) {
     void refreshRuntimeUiState({ force: true });
@@ -7014,6 +7351,142 @@ var styles = `
 .fkp_dashboard-page__widgets-section__item__row__key {}
 
 .fkp_dashboard-page__widgets-section__item__row__value {}
+
+.fkp_dashboard-page__alice {
+    margin-top: 10px;
+    border: 2px var(--background-color-low, lightgray) solid;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.fkp_dashboard-page__alice--hidden {
+    display: none;
+}
+
+.fkp_dashboard-page__alice--failed {
+    color: var(--text-color-medium, #888);
+    text-align: center;
+}
+
+.fkp_dashboard-page__alice__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fkp_dashboard-page__alice__title {
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__warning {
+    margin-top: 8px;
+    padding: 4px 10px;
+    border-left: 3px solid var(--warn-color-medium, orange);
+    background: var(--background-color-low, rgba(0, 0, 0, 0.04));
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__groups {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fkp_dashboard-page__alice__group {
+    min-width: 0;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border-left: 3px solid var(--border-color-medium, #ccc);
+    background: var(--background-color-low, rgba(0, 0, 0, 0.03));
+}
+
+.fkp_dashboard-page__alice__group--trafira {
+    border-left-color: var(--success-color-medium, green);
+}
+
+.fkp_dashboard-page__alice__group--not_captured {
+    border-left-color: var(--warn-color-medium, orange);
+}
+
+.fkp_dashboard-page__alice__group-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__group-count,
+.fkp_dashboard-page__alice__interface-name,
+.fkp_dashboard-page__alice__empty {
+    color: var(--text-color-medium, #888);
+    font-size: 0.85em;
+}
+
+.fkp_dashboard-page__alice__interface-name {
+    margin-top: 4px;
+}
+
+.fkp_dashboard-page__alice__devices {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    column-gap: 20px;
+}
+
+.fkp_dashboard-page__alice__offline {
+    margin-top: 4px;
+}
+
+.fkp_dashboard-page__alice__offline-summary {
+    cursor: pointer;
+    color: var(--text-color-medium, #888);
+    font-size: 0.85em;
+}
+
+.fkp_dashboard-page__alice__device {
+    display: grid;
+    grid-template-columns: 8px minmax(0, auto) minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.7;
+}
+
+.fkp_dashboard-page__alice__device > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fkp_dashboard-page__alice__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-color-high, #aaa);
+}
+
+.fkp_dashboard-page__alice__dot--online {
+    background: var(--success-color-medium, green);
+}
+
+.fkp_dashboard-page__alice__device-name {
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__device-address,
+.fkp_dashboard-page__alice__tag,
+.fkp_dashboard-page__alice__device-activity {
+    color: var(--text-color-medium, #888);
+    font-size: 0.85em;
+}
+
+.fkp_dashboard-page__alice__device-activity {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
 
 .fkp_dashboard-page__outbound-section {
     margin-top: 10px;
