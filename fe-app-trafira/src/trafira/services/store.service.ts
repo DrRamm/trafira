@@ -163,6 +163,11 @@ export interface StoreType {
       trafiraStatus: string;
     };
   };
+  aliceDevicesWidget: {
+    loading: boolean;
+    failed: boolean;
+    data: Trafira.GetAliceDevices | null;
+  };
   sectionsWidget: {
     loading: boolean;
     failed: boolean;
@@ -266,6 +271,11 @@ const initialStore: StoreType = {
       trafiraEnabled: 0,
       trafiraStatus: '',
     },
+  },
+  aliceDevicesWidget: {
+    loading: true,
+    failed: false,
+    data: null,
   },
   sectionsWidget: {
     loading: true,

@@ -131,6 +131,88 @@ function ip_family(value) {
         (valid_ipv6(value) || valid_ipv6_cidr(value) ? 6 : 0);
 }
 
+function valid_mac(value) {
+    return match(as_string(value), /^[0-9A-Fa-f]{2}(:[0-9A-Fa-f]{2}){5}$/) != null;
+}
+
+function ipv4_bits(value) {
+    let result = [];
+    for (let part in split(as_string(value), ".")) {
+        let octet = int(part);
+        for (let bit = 7; bit >= 0; bit--)
+            push(result, (octet >> bit) & 1);
+    }
+    return result;
+}
+
+function ipv6_hextets(value) {
+    value = as_string(value);
+    let embedded = [];
+    let last_colon = rindex(value, ":");
+    if (index(substr(value, last_colon + 1), ".") >= 0) {
+        let octets = split(substr(value, last_colon + 1), ".");
+        embedded = [ sprintf("%x", int(octets[0]) * 256 + int(octets[1])), sprintf("%x", int(octets[2]) * 256 + int(octets[3])) ];
+        value = substr(value, 0, last_colon + 1) + "0";
+    }
+
+    let marker = index(value, "::");
+    let parts;
+    if (marker >= 0) {
+        let left = substr(value, 0, marker);
+        let right = substr(value, marker + 2);
+        let left_parts = left == "" ? [] : split(left, ":");
+        let right_parts = right == "" ? [] : split(right, ":");
+        if (length(embedded) > 0)
+            right_parts = slice(right_parts, 0, length(right_parts) - 1);
+        let missing = 8 - length(left_parts) - length(right_parts) - length(embedded);
+        parts = [ ...left_parts ];
+        for (let i = 0; i < missing; i++)
+            push(parts, "0");
+        push(parts, ...right_parts);
+    }
+    else {
+        parts = split(value, ":");
+        if (length(embedded) > 0)
+            parts = slice(parts, 0, length(parts) - 1);
+    }
+    push(parts, ...embedded);
+    return map(parts, (part) => hex(part));
+}
+
+function ipv6_bits(value) {
+    let result = [];
+    for (let hextet in ipv6_hextets(value))
+        for (let bit = 15; bit >= 0; bit--)
+            push(result, (hextet >> bit) & 1);
+    return result;
+}
+
+// Returns true when a single IP address belongs to an IP or CIDR value of the same family.
+function ip_in_cidr(ip, cidr) {
+    ip = as_string(ip);
+    cidr = as_string(cidr);
+    let slash = index(cidr, "/");
+    let network = slash >= 0 ? substr(cidr, 0, slash) : cidr;
+    let family = ip_family(ip);
+
+    if (family == 0 || family != ip_family(network))
+        return false;
+    if (family == 4 && !valid_ipv4(ip, false, false))
+        return false;
+    if (family == 6 && !valid_ipv6(ip))
+        return false;
+
+    let max_prefix = family == 4 ? 32 : 128;
+    let prefix = slash >= 0 ? int(substr(cidr, slash + 1)) : max_prefix;
+    let ip_bits = family == 4 ? ipv4_bits(ip) : ipv6_bits(ip);
+    let network_bits = family == 4 ? ipv4_bits(network) : ipv6_bits(network);
+
+    for (let i = 0; i < prefix && i < max_prefix; i++)
+        if (ip_bits[i] != network_bits[i])
+            return false;
+    return true;
+}
+
 function format_ipv6_tproxy_target(address, port) {
     address = as_string(address);
     if (substr(address, 0, 1) == "[" && substr(address, length(address) - 1, 1) == "]")
@@ -148,5 +230,7 @@ return {
     valid_ip_or_cidr,
     nft_ip_or_cidr,
     ip_family,
+    valid_mac,
+    ip_in_cidr,
     format_ipv6_tproxy_target
 };

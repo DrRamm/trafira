@@ -470,6 +470,10 @@ function base_config(settings, service_address, runtime_context) {
     ];
     if (runtime_context.source_aware_dns)
         push(inbounds, { type: "direct", tag: runtime_constants.SOURCE_DNS_INBOUND_TAG, listen: runtime_constants.SOURCE_DNS_INBOUND_ADDRESS, listen_port: runtime_constants.SOURCE_DNS_INBOUND_PORT });
+    if (runtime_context.alice_mode) {
+        push(inbounds, { type: "direct", tag: runtime_constants.ALICE_DNS_INBOUND_TAG, listen: runtime_constants.ALICE_DNS_INBOUND_ADDRESS, listen_port: runtime_constants.ALICE_DNS_INBOUND_PORT });
+        push(dns_rules, { action: "route", inbound: runtime_constants.ALICE_DNS_INBOUND_TAG, server: runtime_constants.DNS_SERVER_TAG, rewrite_ttl });
+    }
     for (let inbound in dns_config.inbounds)
         push(inbounds, inbound);
 
@@ -3129,9 +3133,11 @@ function generate_config(output_path, service_address, mwan3_active, supports_xh
         runtime_generate_unsupported("no enabled sections");
 
     let source_aware_dns = source_aware_dns_sources(sections);
+    let alice_mode = bool_option(settings, "alice_mode_enabled", false);
     let config = base_config(settings, service_address, {
         mwan3_active: cli_bool(mwan3_active),
-        source_aware_dns: length(source_aware_dns) > 0
+        source_aware_dns: length(source_aware_dns) > 0,
+        alice_mode
     });
     add_source_aware_dns_support(config, source_aware_dns);
     let taken = reserved_runtime_tag_set(config.outbounds);

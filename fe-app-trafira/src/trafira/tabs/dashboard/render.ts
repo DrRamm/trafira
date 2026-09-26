@@ -1,4 +1,4 @@
-import { renderSections, renderWidget } from './partials';
+import { renderAliceDevices, renderSections, renderWidget } from './partials';
 
 export function render() {
   return E(
@@ -86,6 +86,19 @@ export function render() {
             latencyProgress: undefined,
             subscriptionUpdating: false,
             selectorSwitchingTag: undefined,
+          }),
+        ),
+        // Alice Mode devices
+        E(
+          'div',
+          { id: 'dashboard-alice-devices' },
+          renderAliceDevices({
+            loading: true,
+            failed: false,
+            report: null,
+            nowSeconds: 0,
+            expandedOffline: {},
+            onToggleOffline: () => {},
           }),
         ),
       ]),
