@@ -79,6 +79,9 @@ const config = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
 assert(config.inbounds.some((inbound) => inbound.tag === 'alice-dns-in' && inbound.listen_port === 1604));
 assert(config.route.rules[0].inbound.includes('alice-dns-in'));
 assert(config.dns.rules.some((rule) => rule.inbound === 'alice-dns-in' && rule.server === 'dns-server'));
+const aliceDnsIndex = config.dns.rules.findIndex((rule) => rule.inbound === 'alice-dns-in');
+const fakeDnsIndex = config.dns.rules.findIndex((rule) => rule.domain?.includes('ip.podkop.fyi'));
+assert(aliceDnsIndex < fakeDnsIndex, 'Alice real DNS must precede diagnostic FakeIP rules');
 assert(config.route.rules.some((rule) => rule.outbound === 'bypass-out' && rule.source_ip_cidr === '192.168.1.10/32'));
 NODE
 

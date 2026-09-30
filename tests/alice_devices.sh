@@ -62,6 +62,21 @@ fs.writeFileSync(path.join(dir, 'allow.json'), JSON.stringify(base));
 const deny = structuredClone(base);
 deny.settings.alice_list_mode = 'deny';
 fs.writeFileSync(path.join(dir, 'deny.json'), JSON.stringify(deny));
+for (const [name, ips, mode = 'allow'] of [
+  ['site-partial', ['10.9.0.42/32']],
+  ['site-partial-deny', ['10.9.0.42/32'], 'deny'],
+  ['site-covered', ['10.9.0.0/25', '10.9.0.128/25']],
+  ['site-unmatched', ['10.10.0.0/24']],
+  ['site-v6-partial', ['fd00:9::42/128']],
+  ['site-v6-covered', ['fd00:9::/65', 'fd00:9:0:0:8000::/65']],
+]) {
+  const fixture = structuredClone(base);
+  fixture.settings.source_network_interfaces.push('wg1');
+  fixture.settings.alice_ips = ips;
+  fixture.settings.alice_list_mode = mode;
+  if (name.startsWith('site-v6')) fixture.wg_dump = fixture.wg_dump.replace('10.9.0.0/24', 'fd00:9::/64');
+  fs.writeFileSync(path.join(dir, name + '.json'), JSON.stringify(fixture));
+}
 const empty = structuredClone(base);
 empty.settings.alice_ips = [];
 empty.settings.alice_macs = [];
@@ -119,6 +134,9 @@ report "$WORK_DIR/leases-missing.json" >"$WORK_DIR/leases-missing.out"
 report "$WORK_DIR/malformed.json" >"$WORK_DIR/malformed.out"
 report "$WORK_DIR/both-failed.json" >"$WORK_DIR/both-failed.out"
 report "$WORK_DIR/neighbor-invalid-json.json" >"$WORK_DIR/neighbor-invalid-json.out"
+for name in site-partial site-partial-deny site-covered site-unmatched site-v6-partial site-v6-covered; do
+  report "$WORK_DIR/$name.json" >"$WORK_DIR/$name.out"
+done
 
 node - "$WORK_DIR" <<'NODE'
 const fs = require('fs');
@@ -141,7 +159,7 @@ const iphone = devices['aa:bb:cc:00:00:01'];
 assert.equal(iphone.name, 'iphone');
 assert.deepEqual(iphone.ips, ['192.168.1.10', '2001:db8::10'], 'IPs merge by MAC without link-local');
 assert.equal(iphone.online, true);
-assert.equal(iphone.status, 'trafira');
+assert.equal(iphone.status, 'mixed', 'IPv4 is listed but IPv6 bypasses Trafira');
 assert.equal(iphone.matched_by, 'ip:192.168.1.10/32');
 
 const byMac = devices['aa:bb:cc:00:00:02'];
@@ -181,10 +199,20 @@ assert.deepEqual(allow.warnings, [
 ]);
 
 devices = byKey(read('deny.out'));
-assert.equal(devices['aa:bb:cc:00:00:01'].status, 'direct');
+assert.equal(devices['aa:bb:cc:00:00:01'].status, 'mixed', 'deny mode also preserves mixed IPv4/IPv6 routing');
 assert.equal(devices['aa:bb:cc:00:00:03'].status, 'trafira');
 assert.equal(devices['10.8.0.2'].status, 'direct');
 assert.equal(devices['aa:bb:cc:00:00:05'].status, 'not_captured');
+
+for (const name of ['site-partial', 'site-partial-deny']) {
+  const peer = byKey(read(name + '.out'))['10.9.0.0/24'];
+  assert.equal(peer.status, 'mixed', 'a host inside a peer subnet only partially matches it');
+  assert.equal(peer.matched_by, 'ip:10.9.0.42/32');
+}
+assert.equal(byKey(read('site-covered.out'))['10.9.0.0/24'].status, 'trafira', 'two adjacent subnets together cover the peer');
+assert.equal(byKey(read('site-unmatched.out'))['10.9.0.0/24'].status, 'direct');
+assert.equal(byKey(read('site-v6-partial.out'))['fd00:9::/64'].status, 'mixed');
+assert.equal(byKey(read('site-v6-covered.out'))['fd00:9::/64'].status, 'trafira');
 
 const empty = read('empty.out');
 assert(empty.devices.every((device) => device.status !== 'trafira'), 'empty allow list sends everyone direct');
