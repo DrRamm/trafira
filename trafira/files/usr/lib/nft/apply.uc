@@ -9,9 +9,16 @@ let domain_config = require("config.domain");
 let connections = require("config.connections");
 let routing_rulesets = require("routing.rulesets");
 let runtime_constants = require("singbox.constants");
+let alice_config = require("config.alice");
 const CONFIG_NAME = getenv("TRAFIRA_CONFIG_NAME") || "trafira";
 const DNS_SOURCE_SET = "trafira_dns_sources";
 const DNS_SOURCE6_SET = "trafira_dns_sources6";
+const ALICE_SOURCE_SET = "trafira_alice_sources";
+const ALICE_SOURCE6_SET = "trafira_alice_sources6";
+const ALICE_MAC_SET = "trafira_alice_macs";
+const ALICE_INTERFACE_SET = "trafira_alice_interfaces";
+const ALICE_GATE_CHAIN = "alice_gate";
+const ALICE_DNS_GATE_CHAIN = "alice_dns_gate";
 const BYEDPI_RUNTIME_USER = getenv("BYEDPI_RUNTIME_USER") || "trafirabyedpi";
 const BYEDPI_RUNTIME_UID_OVERRIDE = getenv("BYEDPI_RUNTIME_UID") || "";
 
@@ -818,12 +825,48 @@ function nft_add_section_priority_rules_from_sections(sections, table, interface
     return true;
 }
 
-function nft_create_runtime_base(table, localv4_set, common_set, port_set, ip_port_set, interface_set, source_interfaces, fakeip_mark, outbound_mark, fakeip_range, tproxy_port, exclude_ntp, localv6_set, common6_set, ip_port6_set, fakeip6_range, tproxy6_address) {
+// Alice Mode gate chains. Matched devices either keep Trafira routing (allow list)
+// or skip it (deny list); skipped devices get real DNS answers from the Alice inbound.
+function nft_create_alice_gate(table, interface_set, list_mode) {
+    let allow = list_mode == alice_config.LIST_MODE_ALLOW;
+    // nft only accepts a port redirect after a transport protocol match in the same rule.
+    let dns_direct = [ "meta", "l4proto", "{", "tcp,", "udp", "}", "counter", "redirect", "to", ":" + as_string(runtime_constants.ALICE_DNS_INBOUND_PORT) ];
+    let matchers = [
+        [ "iifname", "@" + ALICE_INTERFACE_SET ],
+        [ "ether", "saddr", "@" + ALICE_MAC_SET ],
+        [ "ip", "saddr", "@" + ALICE_SOURCE_SET ],
+        [ "ip6", "saddr", "@" + ALICE_SOURCE6_SET ]
+    ];
+
+    if (!nft_create_chain(table, ALICE_GATE_CHAIN, "{ }") ||
+        !nft_create_chain(table, ALICE_DNS_GATE_CHAIN, "{ }"))
+        return false;
+
+    for (let matcher in matchers) {
+        if (!nft_add_rule(table, ALICE_GATE_CHAIN, [ ...matcher, ...(allow ? [ "return" ] : [ "counter", "accept" ]) ]) ||
+            !nft_add_rule(table, ALICE_DNS_GATE_CHAIN, [ ...matcher, ...(allow ? [ "return" ] : dns_direct) ]))
+            return false;
+    }
+
+    if (allow &&
+        (!nft_add_rule(table, ALICE_GATE_CHAIN, [ "counter", "accept" ]) ||
+         !nft_add_rule(table, ALICE_DNS_GATE_CHAIN, dns_direct)))
+        return false;
+
+    for (let protocol in [ "tcp", "udp" ])
+        if (!nft_add_rule(table, "dns_redirect", [ "iifname", "@" + as_string(interface_set), protocol, "dport", "53", "jump", ALICE_DNS_GATE_CHAIN ]))
+            return false;
+
+    return nft_add_rule(table, "mangle", [ "iifname", "@" + as_string(interface_set), "jump", ALICE_GATE_CHAIN ]);
+}
+
+function nft_create_runtime_base(table, localv4_set, common_set, port_set, ip_port_set, interface_set, source_interfaces, fakeip_mark, outbound_mark, fakeip_range, tproxy_port, exclude_ntp, localv6_set, common6_set, ip_port6_set, fakeip6_range, tproxy6_address, settings) {
     localv6_set = default_arg(localv6_set, "localv6");
     common6_set = default_arg(common6_set, "trafira_subnets6");
     ip_port6_set = default_arg(ip_port6_set, "trafira_ip6_ports");
     fakeip6_range = default_arg(fakeip6_range, "fc00::/18");
     tproxy6_address = default_arg(tproxy6_address, "::1");
+    let alice = alice_config.config(settings);
 
     if (!nft_create_table(table) ||
         !nft_create_ipv4_set(table, localv4_set) ||
@@ -837,6 +880,10 @@ function nft_create_runtime_base(table, localv4_set, common_set, port_set, ip_po
         !nft_create_ipv6_port_set(table, ip_port6_set) ||
         !nft_create_ipv4_set(table, DNS_SOURCE_SET) ||
         !nft_create_ipv6_set(table, DNS_SOURCE6_SET) ||
+        !nft_create_ipv4_set(table, ALICE_SOURCE_SET) ||
+        !nft_create_ipv6_set(table, ALICE_SOURCE6_SET) ||
+        !nft_create_set(table, ALICE_MAC_SET, "{ type ether_addr; }") ||
+        !nft_create_ifname_set(table, ALICE_INTERFACE_SET) ||
         !nft_create_ifname_set(table, interface_set))
         return false;
 
@@ -849,6 +896,9 @@ function nft_create_runtime_base(table, localv4_set, common_set, port_set, ip_po
         !nft_create_chain(table, "mangle_output", "{ type route hook output priority -150; policy accept; }") ||
         !nft_create_priority_chains(table) ||
         !nft_create_chain(table, "proxy", "{ type filter hook prerouting priority -100; policy accept; }"))
+        return false;
+
+    if (alice.enabled && !nft_create_alice_gate(table, interface_set, alice.list_mode))
         return false;
 
     if (!nft_add_rule(table, "dns_redirect", [ "iifname", "@" + as_string(interface_set), "ip", "saddr", "@" + DNS_SOURCE_SET, "tcp", "dport", "53", "counter", "redirect", "to", ":" + as_string(runtime_constants.SOURCE_DNS_INBOUND_PORT) ]) ||
@@ -912,7 +962,8 @@ function nft_create_runtime_base_from_uci(table, localv4_set, common_set, port_s
         common6_set,
         ip_port6_set,
         fakeip6_range,
-        tproxy6_address
+        tproxy6_address,
+        settings
     );
 }
 
@@ -1492,6 +1543,7 @@ function nft_runtime_signature_from_settings_and_sections(settings, sections) {
 
     body = signature_add_value(body, "settings.source_network_interfaces", option(settings, "source_network_interfaces", "br-lan"));
     body = signature_add_value(body, "settings.exclude_ntp", bool_option(settings, "exclude_ntp", false) ? "1" : "0");
+    body = alice_config.signature_body(settings, signature_add_value, body);
 
     for (let section in sections)
         body = nft_rule_signature_body(body, object_or_empty(section));
@@ -1791,11 +1843,27 @@ function nft_add_community_subnet_file_for_fixture_section(fixture_path, section
     return nft_add_community_subnet_file_for_section(fixture_section(fixture_path, section_name), service, filepath, table, common_set, ip_port_set, interface_set, discord_set, mark, chunk_size_text, common6_set, ip_port6_set, discord6_set);
 }
 
-function nft_populate_runtime_sets_from_sections(sections, populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set) {
+function nft_populate_alice_sets(alice, table) {
+    if (!alice.enabled)
+        return true;
+
+    if (!nft_add_csv_chunks_to_family_sets(join(",", alice.ips), table, ALICE_SOURCE_SET, ALICE_SOURCE6_SET, "ips", "", 5000))
+        return false;
+    if (length(alice.macs) > 0 && !nft_add_set_elements(table, ALICE_MAC_SET, join(", ", alice.macs)))
+        return false;
+    if (length(alice.interfaces) > 0 && !nft_add_set_elements(table, ALICE_INTERFACE_SET, join(", ", map(alice_config.nft_interface_elements(alice.interfaces), (name) => sprintf("%J", name)))))
+        return false;
+    return true;
+}
+
+function nft_populate_runtime_sets_from_sections(sections, populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set, settings) {
     if (!arg_bool(populate_enabled))
         return true;
 
     let deferred_sections = word_set(deferred_section_names);
+
+    if (!nft_populate_alice_sets(alice_config.config(settings), table))
+        return false;
 
     if (!nft_add_source_aware_dns_sources(sections, deferred_sections, table))
         return false;
@@ -1811,13 +1879,13 @@ function nft_populate_runtime_sets_from_uci(populate_enabled, deferred_section_n
     if (!arg_bool(populate_enabled))
         return true;
 
-    return nft_populate_runtime_sets_from_sections(uci_sections("section"), populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set);
+    return nft_populate_runtime_sets_from_sections(uci_sections("section"), populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set, uci_settings());
 }
 
 function nft_populate_runtime_sets_fixture(path, populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set) {
     let data = object_or_empty(common_read_json_file(path));
     connections.set_item_sections_from_data(data);
-    return nft_populate_runtime_sets_from_sections(fixture_section_list(data, "section"), populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set);
+    return nft_populate_runtime_sets_from_sections(fixture_section_list(data, "section"), populate_enabled, deferred_section_names, table, common_set, port_set, ip_port_set, interface_set, localv4_set, mark, common6_set, ip_port6_set, localv6_set, fixture_settings(data));
 }
 
 let mode = ARGV[0] || "";
@@ -1854,6 +1922,10 @@ else if (mode == "csv-to-lines-file")
     csv_to_lines_file(ARGV[1], ARGV[2]);
 else if (mode == "nft-create-runtime-base")
     exit(nft_create_runtime_base(ARGV[1], ARGV[2], ARGV[3], ARGV[4], ARGV[5], ARGV[6], ARGV[7], ARGV[8], ARGV[9], ARGV[10], ARGV[11], ARGV[12], ARGV[13], ARGV[14], ARGV[15], ARGV[16], ARGV[17]) ? 0 : 1);
+else if (mode == "nft-create-runtime-base-fixture") {
+    let data = object_or_empty(common_read_json_file(ARGV[1]));
+    exit(nft_create_runtime_base(ARGV[2], ARGV[3], ARGV[4], ARGV[5], ARGV[6], ARGV[7], ARGV[8], ARGV[9], ARGV[10], ARGV[11], ARGV[12], ARGV[13], ARGV[14], ARGV[15], ARGV[16], ARGV[17], ARGV[18], fixture_settings(data)) ? 0 : 1);
+}
 else if (mode == "nft-create-runtime-base-from-uci")
     exit(nft_create_runtime_base_from_uci(ARGV[1], ARGV[2], ARGV[3], ARGV[4], ARGV[5], ARGV[6], ARGV[7], ARGV[8], ARGV[9], ARGV[10], ARGV[11], ARGV[12], ARGV[13], ARGV[14], ARGV[15]) ? 0 : 1);
 else if (mode == "nft-create-runtime-output-rules")

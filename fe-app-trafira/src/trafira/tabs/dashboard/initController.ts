@@ -21,6 +21,7 @@ import {
 } from '../../services';
 import {
   getLatencyTestLabel,
+  renderAliceDevices,
   renderFlagEmojis,
   renderSections,
   renderWidget,
@@ -133,6 +134,48 @@ async function fetchDashboardSectionsOnce(mountId: number) {
     });
 
     return false;
+  }
+}
+
+async function fetchAliceDevices(mountId: number) {
+  try {
+    const response = await TrafiraShellMethods.getAliceDevices();
+
+    if (!dashboardMounted || mountId !== dashboardMountId) {
+      return;
+    }
+
+    if (
+      !response.success ||
+      !response.data ||
+      typeof response.data !== 'object'
+    ) {
+      throw new Error('failed to fetch Alice Mode devices');
+    }
+
+    store.set({
+      aliceDevicesWidget: {
+        loading: false,
+        failed: false,
+        data: response.data,
+      },
+    });
+  } catch (error) {
+    logger.error('[DASHBOARD]', 'fetchAliceDevices: failed', error);
+
+    if (!dashboardMounted || mountId !== dashboardMountId) {
+      return;
+    }
+
+    const current = store.get().aliceDevicesWidget;
+
+    store.set({
+      aliceDevicesWidget: {
+        loading: false,
+        failed: !current.data,
+        data: current.data,
+      },
+    });
   }
 }
 
@@ -605,9 +648,11 @@ function startDashboardDataUpdates() {
   dashboardDataUpdatesStarted = true;
   const dataUpdatesId = ++dashboardDataUpdatesId;
   void fetchDashboardSections({ force: true });
+  void fetchAliceDevices(dashboardMountId);
   void connectToClashSockets(dataUpdatesId);
   sectionsRefreshTimer = setInterval(() => {
     void fetchDashboardSections();
+    void fetchAliceDevices(dashboardMountId);
   }, SECTIONS_REFRESH_INTERVAL_MS);
 }
 
@@ -1695,6 +1740,34 @@ async function renderServicesInfoWidget() {
   container.replaceChildren(renderedWidget);
 }
 
+// Kept outside the store: toggling a spoiler must not trigger a re-render.
+const aliceExpandedOffline: Partial<
+  Record<Trafira.AliceDeviceStatus, boolean>
+> = {};
+
+async function renderAliceDevicesWidget() {
+  const container = document.getElementById('dashboard-alice-devices');
+
+  if (!container) {
+    return;
+  }
+
+  const { aliceDevicesWidget } = store.get();
+
+  container.replaceChildren(
+    renderAliceDevices({
+      loading: aliceDevicesWidget.loading,
+      failed: aliceDevicesWidget.failed,
+      report: aliceDevicesWidget.data,
+      nowSeconds: Math.floor(Date.now() / 1000),
+      expandedOffline: aliceExpandedOffline,
+      onToggleOffline: (status, open) => {
+        aliceExpandedOffline[status] = open;
+      },
+    }),
+  );
+}
+
 async function onStoreUpdate(
   next: StoreType,
   prev: StoreType,
@@ -1722,6 +1795,10 @@ async function onStoreUpdate(
 
   if (diff.systemInfoWidget) {
     renderSystemInfoWidget();
+  }
+
+  if (diff.aliceDevicesWidget) {
+    renderAliceDevicesWidget();
   }
 
   if (diff.servicesInfoWidget) {
@@ -1759,6 +1836,7 @@ async function onPageMount() {
   void renderTrafficTotalWidget();
   void renderSystemInfoWidget();
   void renderServicesInfoWidget();
+  void renderAliceDevicesWidget();
   syncDashboardServiceAvailability();
 
   if (hasRuntimeSnapshot) {

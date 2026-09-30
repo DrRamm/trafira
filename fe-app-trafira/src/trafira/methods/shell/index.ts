@@ -338,6 +338,10 @@ export const TrafiraShellMethods = {
     callBaseMethod<Trafira.GetSystemInfo>(
       Trafira.AvailableMethods.GET_SYSTEM_INFO,
     ),
+  getAliceDevices: async () =>
+    callBaseMethod<Trafira.GetAliceDevices>(
+      Trafira.AvailableMethods.GET_ALICE_DEVICES,
+    ),
   getServerCapabilities: async () =>
     callBaseMethod<Trafira.GetServerCapabilities>(
       Trafira.AvailableMethods.GET_SERVER_CAPABILITIES,

@@ -11,6 +11,7 @@ type HtmlAttributes<T extends HtmlTag = 'div'> = Partial<
     'aria-label'?: string;
     'data-latency-section'?: string;
     click?: (event: MouseEvent) => void;
+    toggle?: (event: Event) => void;
     onclick?: (event: MouseEvent) => void;
   }
 >;
