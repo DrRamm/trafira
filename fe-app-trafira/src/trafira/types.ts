@@ -497,7 +497,11 @@ export namespace Trafira {
 
   export type AliceListMode = 'allow' | 'deny';
 
-  export type AliceDeviceStatus = 'trafira' | 'direct' | 'not_captured';
+  export type AliceDeviceStatus =
+    | 'trafira'
+    | 'direct'
+    | 'mixed'
+    | 'not_captured';
 
   export interface AliceDevice {
     kind: 'lan' | 'wireguard';

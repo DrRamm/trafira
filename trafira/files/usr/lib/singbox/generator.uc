@@ -464,6 +464,10 @@ function base_config(settings, service_address, runtime_context) {
     let dns_rules = [];
     for (let rule in dns_config.rules)
         push(dns_rules, rule);
+    runtime_context = object_or_empty(runtime_context);
+    // Bypassed clients must receive real addresses even for diagnostic domains.
+    if (runtime_context.alice_mode)
+        push(dns_rules, { action: "route", inbound: runtime_constants.ALICE_DNS_INBOUND_TAG, server: runtime_constants.DNS_SERVER_TAG, rewrite_ttl });
     for (let rule in [
         { action: "reject", query_type: "HTTPS" },
         { action: "reject", domain_suffix: "use-application-dns.net" },
@@ -486,7 +490,6 @@ function base_config(settings, service_address, runtime_context) {
         inet6_range: runtime_constants.FAKEIP_INET6_RANGE
     });
 
-    runtime_context = object_or_empty(runtime_context);
     let inbounds = [
         { type: "tproxy", tag: runtime_constants.TPROXY_INBOUND_TAG, listen: runtime_constants.TPROXY_INBOUND_ADDRESS, listen_port: runtime_constants.TPROXY_INBOUND_PORT, tcp_fast_open: true, udp_fragment: true },
         { type: "tproxy", tag: runtime_constants.TPROXY_INBOUND6_TAG, listen: runtime_constants.TPROXY_INBOUND6_ADDRESS, listen_port: runtime_constants.TPROXY_INBOUND_PORT, tcp_fast_open: true, udp_fragment: true },
@@ -496,7 +499,6 @@ function base_config(settings, service_address, runtime_context) {
         push(inbounds, { type: "direct", tag: runtime_constants.SOURCE_DNS_INBOUND_TAG, listen: runtime_constants.SOURCE_DNS_INBOUND_ADDRESS, listen_port: runtime_constants.SOURCE_DNS_INBOUND_PORT });
     if (runtime_context.alice_mode) {
         push(inbounds, { type: "direct", tag: runtime_constants.ALICE_DNS_INBOUND_TAG, listen: runtime_constants.ALICE_DNS_INBOUND_ADDRESS, listen_port: runtime_constants.ALICE_DNS_INBOUND_PORT });
-        push(dns_rules, { action: "route", inbound: runtime_constants.ALICE_DNS_INBOUND_TAG, server: runtime_constants.DNS_SERVER_TAG, rewrite_ttl });
     }
     for (let inbound in dns_config.inbounds)
         push(inbounds, inbound);

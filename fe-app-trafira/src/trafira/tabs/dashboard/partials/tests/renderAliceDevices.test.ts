@@ -63,6 +63,27 @@ beforeEach(() => {
 afterEach(() => vi.unstubAllGlobals());
 
 describe('renderAliceDevices', () => {
+  it('shows mixed routing without claiming all addresses use one path', () => {
+    const node = renderAliceDevices({
+      loading: false,
+      failed: false,
+      nowSeconds: 0,
+      ...spoilerProps,
+      report: {
+        enabled: true,
+        dashboard_visible: true,
+        list_mode: 'allow',
+        source_interfaces: ['br-lan'],
+        generated_at: 0,
+        warnings: [],
+        devices: [device({ name: 'dual-stack', status: 'mixed' })],
+      },
+    }) as unknown as Node;
+    const group = findByClass(node, `${BLOCK}__group--mixed`);
+    expect(group).toHaveLength(1);
+    expect(text(group[0])).toContain('dual-stack');
+    expect(text(group[0])).toContain('Mixed routing');
+  });
   it('stays hidden when the dashboard panel is turned off', () => {
     const node = renderAliceDevices({
       loading: false,

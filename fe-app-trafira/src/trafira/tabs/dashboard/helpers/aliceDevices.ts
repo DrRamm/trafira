@@ -15,6 +15,7 @@ export function groupAliceDevices(
   const groups: AliceDeviceGroups = {
     trafira: [],
     direct: [],
+    mixed: [],
     not_captured: [],
   };
 

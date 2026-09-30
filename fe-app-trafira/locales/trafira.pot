@@ -1,15 +1,15 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2026 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the TRAFIRA package.
-# DrRamm <kotsareu@gmail.com>, 2026.
+# petrouspetr-pixel <280500603+petrouspetr-pixel@users.noreply.github.com>, 2026.
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: TRAFIRA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-26 19:43+0300\n"
-"PO-Revision-Date: 2026-09-26 19:43+0300\n"
-"Last-Translator: DrRamm <kotsareu@gmail.com>\n"
+"POT-Creation-Date: 2026-09-30 20:48+0300\n"
+"PO-Revision-Date: 2026-09-30 20:48+0300\n"
+"Last-Translator: petrouspetr-pixel <280500603+petrouspetr-pixel@users.noreply.github.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -28,27 +28,27 @@ msgstr ""
 msgid "-- Select --"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:95
+#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:96
 msgid "%d d"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:92
+#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:93
 msgid "%d h"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:88
+#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:89
 msgid "%d min"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:169
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:172
 msgid "%d of %d online"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:84
+#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:85
 msgid "%d s"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:91
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:94
 msgid "%s ago"
 msgstr ""
 
@@ -56,7 +56,7 @@ msgstr ""
 msgid "%s subnet"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7453
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7457
 msgid "+ Add JSON outbound"
 msgstr ""
 
@@ -64,11 +64,11 @@ msgstr ""
 msgid "+ Add level"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7539
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7543
 msgid "+ Add priority"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7480
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7484
 msgid "+ Add URLTest"
 msgstr ""
 
@@ -94,8 +94,8 @@ msgstr ""
 msgid "Accept routes"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7094
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7123
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7098
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7127
 msgid "Action"
 msgstr ""
 
@@ -144,19 +144,19 @@ msgstr ""
 msgid "Add prefix to nodes"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7916
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7920
 msgid "Add URLs or local paths to .lst lists containing domains and subnets."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7937
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7941
 msgid "Add URLs or local paths to .lst lists containing domains. IP entries are ignored."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7891
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7895
 msgid "Add URLs or local paths to .srs / .json lists. Only domain rules are supported."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7862
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7866
 msgid "Add URLs or local paths to .srs / .json lists. Subnets are ignored by default."
 msgstr ""
 
@@ -203,11 +203,11 @@ msgid "After a connection failure, retry the skipped server after this duration"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/trafira.js:437
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:233
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:238
 msgid "Alice Mode"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:222
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:225
 msgid "Alice Mode devices are currently unavailable"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 msgid "All servers"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7969
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7973
 msgid "All traffic from these IP addresses will be routed through the section unconditionally, ignoring all other conditions."
 msgstr ""
 
@@ -260,7 +260,7 @@ msgstr ""
 msgid "Alter ID"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7960
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7964
 msgid "Apply section rules only to the specified local IP addresses"
 msgstr ""
 
@@ -268,7 +268,7 @@ msgstr ""
 msgid "At least one valid domain must be specified."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5322
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5326
 msgid "At least one valid IP or subnet must be specified."
 msgstr ""
 
@@ -309,9 +309,9 @@ msgstr ""
 msgid "Available actions"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5455
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5900
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6312
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5459
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5904
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6316
 msgid "Backend validation failed: %s"
 msgstr ""
 
@@ -336,7 +336,7 @@ msgstr ""
 msgid "Browser is using FakeIP correctly"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7841
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7845
 msgid "Built-in rule sets"
 msgstr ""
 
@@ -344,22 +344,22 @@ msgstr ""
 msgid "By flag emoji from name"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6381
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6385
 msgid "ByeDPI listen address and port are assigned by Trafira and must not be set in the strategy."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6558
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6562
 msgid "ByeDPI option does not accept a compact value: %s"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6487
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6491
 msgid "ByeDPI option does not accept a value: %s"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6479
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6505
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6539
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6548
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6483
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6509
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6543
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6552
 msgid "ByeDPI option requires a value: %s"
 msgstr ""
 
@@ -387,11 +387,11 @@ msgstr ""
 msgid "ByeDPI sing-box outbound is not configured"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7295
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7299
 msgid "ByeDPI Strategy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6584
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6588
 msgid "ByeDPI strategy cannot be empty"
 msgstr ""
 
@@ -430,7 +430,7 @@ msgstr ""
 msgid "Cannot save settings"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7572
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7576
 msgid "Cascade connection"
 msgstr ""
 
@@ -529,10 +529,10 @@ msgstr ""
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:3623
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/server.js:1714
 #: src/partials/modal/renderModal.ts:263
-#: src/trafira/tabs/dashboard/initController.ts:1061
-#: src/trafira/tabs/dashboard/initController.ts:1329
 #: src/trafira/tabs/monitoring/initController.ts:832
 #: src/trafira/tabs/monitoring/initController.ts:882
+#: src/trafira/tabs/dashboard/initController.ts:1061
+#: src/trafira/tabs/dashboard/initController.ts:1329
 msgid "Close"
 msgstr ""
 
@@ -571,7 +571,7 @@ msgstr ""
 msgid "Concurrency"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7082
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7086
 msgid "Conditions"
 msgstr ""
 
@@ -587,11 +587,11 @@ msgstr ""
 msgid "Configure User-Agent in the item settings"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7610
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7614
 msgid "Connect through"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7333
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7337
 msgid "Connection URL"
 msgstr ""
 
@@ -624,7 +624,7 @@ msgstr ""
 msgid "Could not compare FakeIP and control public IPs"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7627
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7631
 msgid "Current section cannot be used as its own transit section"
 msgstr ""
 
@@ -640,7 +640,7 @@ msgstr ""
 msgid "Custom device headers"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7448
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7452
 msgid "Custom outbound configurations in JSON format"
 msgstr ""
 
@@ -678,11 +678,11 @@ msgstr ""
 msgid "detour must be a non-empty string"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7959
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7963
 msgid "Device filter"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6850
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6854
 msgid "Device or IP"
 msgstr ""
 
@@ -706,7 +706,7 @@ msgstr ""
 msgid "DHCP is managed manually"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:69
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:74
 msgid "DHCP leases are unavailable; device names may be missing."
 msgstr ""
 
@@ -735,7 +735,7 @@ msgstr ""
 msgid "Disable the QUIC protocol to improve compatibility or fix issues with video streaming"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5982
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5986
 msgid "Disabling interception is incompatible with action=zapret2 because Trafira sends matched traffic through NFQUEUE."
 msgstr ""
 
@@ -767,7 +767,7 @@ msgid "DNS over TLS (DoT)"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:2517
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7144
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7148
 msgid "DNS protocol"
 msgstr ""
 
@@ -776,11 +776,11 @@ msgid "DNS Protocol Type"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:2518
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7145
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7149
 msgid "DNS protocol used by the resolver"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7188
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7192
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/settings.js:335
 msgid "DNS requests through section"
 msgstr ""
@@ -790,17 +790,17 @@ msgid "DNS Rewrite TTL"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:2527
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7157
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7161
 msgid "DNS server"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7166
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7170
 #: src/validators/validateDns.ts:8
 msgid "DNS server address cannot be empty"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:2528
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7158
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7162
 msgid "DNS server used by the resolver"
 msgstr ""
 
@@ -824,7 +824,7 @@ msgstr ""
 msgid "DNS through proxy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7176
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7180
 msgid "DNS through section"
 msgstr ""
 
@@ -872,11 +872,11 @@ msgstr ""
 msgid "DoH client certificate authentication"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7915
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7919
 msgid "Domain and IP lists"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7936
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7940
 msgid "Domain lists"
 msgstr ""
 
@@ -884,7 +884,7 @@ msgstr ""
 msgid "Domain Resolver"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7802
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7806
 msgid "Domains"
 msgstr ""
 
@@ -959,7 +959,7 @@ msgstr ""
 msgid "Edit rule action"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7084
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7088
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/server.js:2476
 msgid "Enable"
 msgstr ""
@@ -988,11 +988,11 @@ msgstr ""
 msgid "Enable list updates"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7648
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7652
 msgid "Enable Mixed Proxy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7689
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7693
 msgid "Enable Mixed Proxy Authentication"
 msgstr ""
 
@@ -1028,7 +1028,7 @@ msgstr ""
 msgid "Enter a level name"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7169
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7173
 msgid "Enter a valid DNS server address"
 msgstr ""
 
@@ -1044,7 +1044,7 @@ msgstr ""
 msgid "Enter the HWID sent with subscription requests"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7359
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7363
 msgid "Enter the subscription URL"
 msgstr ""
 
@@ -1104,15 +1104,15 @@ msgstr ""
 msgid "Expires"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7649
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7653
 msgid "Expose this section as a local HTTP+SOCKS proxy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5516
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5520
 msgid "External nfqws config files bypass Trafira queue management and explicit validation."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5961
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5965
 msgid "External nfqws2 config files bypass Trafira queue management and explicit validation."
 msgstr ""
 
@@ -1201,7 +1201,7 @@ msgstr ""
 msgid "Fix the highlighted fields and save again."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7968
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7972
 msgid "Forced device routing"
 msgstr ""
 
@@ -1217,7 +1217,7 @@ msgstr ""
 msgid "Fronting proxy protocol"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5979
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5983
 msgid "Fuzzing is not supported here because Trafira needs deterministic runtime validation."
 msgstr ""
 
@@ -1419,11 +1419,11 @@ msgstr ""
 msgid "Installed version is newer than release"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:53
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:58
 msgid "Interface %s is in the device list but not selected in Source Network Interface, so its rule has no effect."
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:47
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:52
 msgid "Interface is not in Source Network Interface"
 msgstr ""
 
@@ -1466,7 +1466,7 @@ msgstr ""
 msgid "Interval"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7316
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7320
 msgid "Invalid ByeDPI strategy"
 msgstr ""
 
@@ -1566,7 +1566,7 @@ msgstr ""
 msgid "Invalid MAC address. Use the aa:bb:cc:dd:ee:ff format"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7273
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7277
 msgid "Invalid NFQWS2 strategy"
 msgstr ""
 
@@ -1574,12 +1574,12 @@ msgstr ""
 msgid "Invalid path format. Path must start with \"/\" and contain valid characters"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7682
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7686
 #: src/validators/validateShadowsocksUrl.ts:91
 msgid "Invalid port number. Must be between 1 and 65535"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5338
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5342
 msgid "Invalid port or range. Use 80 or 1000-2000"
 msgstr ""
 
@@ -1693,7 +1693,7 @@ msgstr ""
 msgid "IP addresses and subnets"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7831
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7835
 msgid "IPs"
 msgstr ""
 
@@ -1713,7 +1713,7 @@ msgstr ""
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:1063
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:3956
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:4192
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7447
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7451
 msgid "JSON outbound"
 msgstr ""
 
@@ -1753,11 +1753,11 @@ msgstr ""
 msgid "Keyword must not contain spaces or commas"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:57
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:62
 msgid "LAN device data is unavailable; LAN devices may be missing."
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:90
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:93
 msgid "Last WireGuard handshake"
 msgstr ""
 
@@ -1791,7 +1791,7 @@ msgstr ""
 msgid "Level name"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7015
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7019
 msgid "List must be an HTTP(S) URL or a local .lst path"
 msgstr ""
 
@@ -1844,15 +1844,15 @@ msgstr ""
 msgid "Main DNS server. If multiple servers are selected, a timeout switches to a backup."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7832
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7836
 msgid "Match destination IPs or subnets"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7980
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7984
 msgid "Match destination ports. Use a single port or a range"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:104
+#: src/trafira/tabs/dashboard/helpers/aliceDevices.ts:105
 msgid "Matched by %s"
 msgstr ""
 
@@ -1872,16 +1872,20 @@ msgstr ""
 msgid "Minimum latency difference in milliseconds that triggers switching to a faster server."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7740
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7744
 msgid "Mixed Proxy Password"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7663
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7667
 msgid "Mixed Proxy Port"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7704
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7708
 msgid "Mixed Proxy Username"
+msgstr ""
+
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:46
+msgid "Mixed routing"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/settings.js:450
@@ -1915,7 +1919,7 @@ msgid "Native fallback reacts to real connection failures and requires sing-box 
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:1815
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7406
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7410
 msgid "Network Interface"
 msgstr ""
 
@@ -1937,19 +1941,19 @@ msgstr ""
 msgid "NFQUEUE range overlaps with another rule"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7205
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7209
 msgid "NFQWS Strategy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5646
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5650
 msgid "NFQWS strategy cannot be empty"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7252
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7256
 msgid "NFQWS2 Strategy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6120
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6124
 msgid "NFQWS2 strategy cannot be empty"
 msgstr ""
 
@@ -1972,7 +1976,7 @@ msgstr ""
 msgid "No conflict detected"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:201
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:204
 msgid "No devices"
 msgstr ""
 
@@ -2017,7 +2021,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:46
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:51
 msgid "Not captured"
 msgstr ""
 
@@ -2081,7 +2085,7 @@ msgstr ""
 msgid "Obfuscation password"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:192
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:195
 msgid "Offline: %d"
 msgstr ""
 
@@ -2139,15 +2143,15 @@ msgid "Operation timed out"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:1380
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6725
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6729
 msgid "Option \"%s\" contains an invalid input value."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5724
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5728
 msgid "Optional values must be attached with '=' here; a separate token would be ignored by nfqws."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6198
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6202
 msgid "Optional values must be attached with '=' here; a separate token would be ignored by nfqws2."
 msgstr ""
 
@@ -2175,7 +2179,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7766
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7770
 msgid "Password cannot be empty"
 msgstr ""
 
@@ -2214,7 +2218,7 @@ msgstr ""
 msgid "Pin on dashboard"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7674
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7678
 msgid "Port cannot be empty"
 msgstr ""
 
@@ -2222,20 +2226,20 @@ msgstr ""
 msgid "Port conflict"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7664
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7668
 msgid "Port for the local mixed proxy of this section"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5345
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5349
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/server.js:1810
 msgid "Port must be between 1 and 65535"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5349
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5353
 msgid "Port range start must be less than or equal to end"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7979
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7983
 msgid "Ports"
 msgstr ""
 
@@ -2255,7 +2259,7 @@ msgstr ""
 msgid "Prefix text"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7533
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7537
 msgid "Priority"
 msgstr ""
 
@@ -2355,31 +2359,31 @@ msgstr ""
 msgid "Remove the specified servers from this level."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7690
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7694
 msgid "Require a username and password for the local mixed proxy"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7777
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7781
 msgid "Resolve domain names before routing so sing-box can use real destination IPs."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7776
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7780
 msgid "Resolve real IP for routing"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5519
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5523
 msgid "Resource selection by hostname inside nfqws is not supported here; sing-box selects resources before NFQUEUE."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5964
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5968
 msgid "Resource selection by hostname inside nfqws2 is not supported here; sing-box selects resources before NFQUEUE."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5522
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5526
 msgid "Resource selection by IP or CIDR inside nfqws is not supported here; sing-box selects resources before NFQUEUE."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5967
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5971
 msgid "Resource selection by IP or CIDR inside nfqws2 is not supported here; sing-box selects resources before NFQUEUE."
 msgstr ""
 
@@ -2400,7 +2404,7 @@ msgstr ""
 msgid "Route main DNS requests through the selected section."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7177
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7181
 msgid "Route requests to this DNS server through another section."
 msgstr ""
 
@@ -2422,7 +2426,7 @@ msgstr ""
 msgid "Routing section"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7006
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7010
 msgid "Rule set must be an HTTP(S) URL or a local .srs / .json path"
 msgstr ""
 
@@ -2430,8 +2434,8 @@ msgstr ""
 msgid "Rule set settings"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7861
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7890
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7865
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7894
 msgid "Rule sets"
 msgstr ""
 
@@ -2487,7 +2491,7 @@ msgstr ""
 msgid "Section"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7110
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7114
 msgid "Section name"
 msgstr ""
 
@@ -2504,15 +2508,15 @@ msgstr ""
 msgid "Select a common client profile or enter a custom User-Agent"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7412
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7416
 msgid "Select a network interface"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7842
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7846
 msgid "Select a predefined domain list"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7198
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7202
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/settings.js:84
 msgid "Select a section"
 msgstr ""
@@ -2521,7 +2525,7 @@ msgstr ""
 msgid "Select a section for downloading this subscription"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7611
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7615
 msgid "Select a transit section"
 msgstr ""
 
@@ -2533,7 +2537,7 @@ msgstr ""
 msgid "Select an existing URLTest or Priority group"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7624
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7628
 msgid "Select an intermediate section"
 msgstr ""
 
@@ -2541,7 +2545,7 @@ msgstr ""
 msgid "Select DNS protocol to use"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7407
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7411
 msgid "Select network interface for VPN connection"
 msgstr ""
 
@@ -2600,11 +2604,11 @@ msgstr ""
 msgid "Server filtering"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7475
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7479
 msgid "Server group for automatic lowest-latency selection"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7534
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7538
 msgid "Server group for priority failover"
 msgstr ""
 
@@ -2647,7 +2651,7 @@ msgstr ""
 msgid "Service action failed"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7845
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7849
 msgid "Service list"
 msgstr ""
 
@@ -2656,7 +2660,7 @@ msgid "Services info"
 msgstr ""
 
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:1124
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7081
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7085
 #: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/trafira.js:425
 msgid "Settings"
 msgstr ""
@@ -2742,23 +2746,27 @@ msgstr ""
 msgid "Sing-box version is compatible (newer than 1.12.4)"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:72
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:47
+msgid "Some addresses use Trafira; others connect directly"
+msgstr ""
+
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:77
 msgid "Some DHCP lease entries were invalid and skipped."
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:60
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:65
 msgid "Some LAN neighbor entries were invalid and skipped."
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:66
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:71
 msgid "Some WireGuard peer entries were invalid and skipped."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7636
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7640
 msgid "Sort by latency"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7637
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7641
 msgid "Sorts servers in this section by lowest latency in the dashboard."
 msgstr ""
 
@@ -2857,7 +2865,7 @@ msgstr ""
 msgid "Subscription update interval"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7358
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7362
 msgid "Subscription URL"
 msgstr ""
 
@@ -2931,21 +2939,21 @@ msgstr ""
 msgid "Testing URL"
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:56
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:61
 msgid "The allow list is empty, so no devices use Trafira."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5531
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5976
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5535
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5980
 msgid "The desync fwmark is managed by Trafira for loop prevention and must not be overridden here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5528
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5973
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5532
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5977
 msgid "The NFQUEUE number is assigned by Trafira for each rule and must not be overridden here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7803
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7807
 msgid "The rule applies to the domain and all its subdomains. Use full:, keyword:, or regex: prefixes for exact match, keyword match, or regular expression."
 msgstr ""
 
@@ -2969,33 +2977,33 @@ msgstr ""
 msgid "This field is required"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6393
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6397
 msgid "This field must start a working ciadpi strategy; help/version options exit immediately and are not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5537
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5541
 msgid "This field must start a working nfqws strategy; --dry-run exits immediately and is not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5540
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5544
 msgid "This field must start a working nfqws strategy; --version exits immediately and is not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5988
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5992
 msgid "This field must start a working nfqws2 strategy; --dry-run exits immediately and is not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5991
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5995
 msgid "This field must start a working nfqws2 strategy; --version exits immediately and is not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5709
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6183
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5713
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6187
 msgid "This flag does not accept a value."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5740
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6214
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5744
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6218
 msgid "This option requires a value."
 msgstr ""
 
@@ -3042,19 +3050,19 @@ msgstr ""
 msgid "Trafira Error"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6390
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6394
 msgid "Trafira manages ciadpi pid files itself, so pidfile options are not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6387
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6391
 msgid "Trafira manages the ciadpi process lifecycle itself, so daemon mode is not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5534
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5538
 msgid "Trafira manages the nfqws process lifecycle itself, so daemon mode is not allowed here."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5985
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5989
 msgid "Trafira manages the nfqws2 process lifecycle itself, so daemon mode is not allowed here."
 msgstr ""
 
@@ -3118,7 +3126,7 @@ msgstr ""
 msgid "Trafira-managed nfqws2 runtime is ready"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6384
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6388
 msgid "Transparent proxy mode is incompatible with action=byedpi because Trafira connects to ciadpi through SOCKS."
 msgstr ""
 
@@ -3165,18 +3173,18 @@ msgstr ""
 msgid "UDP (Unprotected DNS)"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6308
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6312
 msgid "Unable to validate the ByeDPI strategy through the backend parser."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5451
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6789
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7232
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5455
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6793
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7236
 msgid "Unable to validate the NFQWS strategy through the backend parser."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5896
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6798
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5900
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6802
 msgid "Unable to validate the NFQWS2 strategy through the backend parser."
 msgstr ""
 
@@ -3185,13 +3193,13 @@ msgstr ""
 msgid "Unavailability timeout"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6525
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6574
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6529
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6578
 msgid "Unexpected ByeDPI strategy argument: %s"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5689
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6163
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5693
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6167
 msgid "Unexpected standalone token. Use explicit flags such as --name or --name=value."
 msgstr ""
 
@@ -3226,9 +3234,9 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6494
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6516
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6567
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6498
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6520
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6571
 msgid "Unknown ByeDPI option: %s"
 msgstr ""
 
@@ -3240,11 +3248,11 @@ msgstr ""
 msgid "Unknown error"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5700
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5704
 msgid "Unknown NFQWS flag."
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6174
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:6178
 msgid "Unknown NFQWS2 flag."
 msgstr ""
 
@@ -3304,7 +3312,7 @@ msgstr ""
 msgid "URL used to test server latency"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7474
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7478
 msgid "URLTest"
 msgstr ""
 
@@ -3367,7 +3375,7 @@ msgstr ""
 msgid "Use an IP listen address"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7573
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7577
 msgid "Use another section as an intermediate hop to connect to servers in this section. Does not apply to network interfaces or JSON outbounds."
 msgstr ""
 
@@ -3417,7 +3425,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7730
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7734
 msgid "Username cannot be empty"
 msgstr ""
 
@@ -3466,7 +3474,7 @@ msgstr ""
 msgid "View logs"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7111
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7115
 msgid "Visible name of this section"
 msgstr ""
 
@@ -3474,7 +3482,7 @@ msgstr ""
 msgid "VLESS flow"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7334
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7338
 msgid "vless://, vmess://, ss://, trojan://, socks4/5://, hy2/hysteria2:// links"
 msgstr ""
 
@@ -3486,7 +3494,7 @@ msgstr ""
 msgid "WAN public IP"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7124
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:7128
 msgid "What Trafira should do when this section matches"
 msgstr ""
 
@@ -3494,7 +3502,7 @@ msgstr ""
 msgid "When switching to another level, test every server and select the fastest instead of the first working one."
 msgstr ""
 
-#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:63
+#: src/trafira/tabs/dashboard/partials/renderAliceDevices.ts:68
 msgid "WireGuard peer data is unavailable; peers may be missing."
 msgstr ""
 
@@ -3514,7 +3522,7 @@ msgstr ""
 msgid "You can select Output Network Interface, by default autodetect"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5525
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5529
 msgid "Zapret hostlist templates are not supported here because Trafira does not expand them for per-rule NFQWS strategies."
 msgstr ""
 
@@ -3542,7 +3550,7 @@ msgstr ""
 msgid "Zapret sing-box outbound is not configured"
 msgstr ""
 
-#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5970
+#: ../luci-app-trafira/htdocs/luci-static/resources/view/trafira/section.js:5974
 msgid "Zapret2 hostlist templates are not supported here because Trafira does not expand them for per-rule NFQWS2 strategies."
 msgstr ""
 

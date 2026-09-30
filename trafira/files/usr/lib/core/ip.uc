@@ -213,6 +213,58 @@ function ip_in_cidr(ip, cidr) {
     return true;
 }
 
+function cidr_prefix(value) {
+    value = as_string(value);
+    if (!valid_ip_or_cidr(value))
+        return null;
+    let slash = index(value, "/");
+    let address = slash >= 0 ? substr(value, 0, slash) : value;
+    let family = ip_family(address);
+    let bits = family == 4 ? ipv4_bits(address) : ipv6_bits(address);
+    let prefix = slash >= 0 ? int(substr(value, slash + 1)) : length(bits);
+    return { family, bits: join("", slice(bits, 0, prefix)) };
+}
+
+// A CIDR is fully covered when either it is explicitly covered, or both of
+// its child prefixes are covered. Strings retain all 128 bits of IPv6.
+function prefix_fully_covered(prefix, candidates) {
+    if (index(candidates, prefix) >= 0)
+        return true;
+    let left = filter(candidates, (candidate) => substr(candidate, 0, length(prefix) + 1) == prefix + "0");
+    let right = filter(candidates, (candidate) => substr(candidate, 0, length(prefix) + 1) == prefix + "1");
+    return length(left) > 0 && length(right) > 0 &&
+        prefix_fully_covered(prefix + "0", left) && prefix_fully_covered(prefix + "1", right);
+}
+
+// Report any intersection and complete coverage of an address or subnet by a
+// list of CIDRs, including a union of smaller prefixes covering the subnet.
+function cidr_list_coverage(value, entries) {
+    let target = cidr_prefix(value);
+    let result = { any: false, all: false, matched: null };
+    if (target == null)
+        return result;
+
+    let candidates = [];
+    for (let entry in entries) {
+        let candidate = cidr_prefix(entry);
+        if (candidate == null || candidate.family != target.family)
+            continue;
+        let shared = length(candidate.bits) < length(target.bits) ? length(candidate.bits) : length(target.bits);
+        if (substr(candidate.bits, 0, shared) != substr(target.bits, 0, shared))
+            continue;
+        result.any = true;
+        if (result.matched == null)
+            result.matched = entry;
+        if (length(candidate.bits) <= length(target.bits)) {
+            result.all = true;
+            return result;
+        }
+        push(candidates, candidate.bits);
+    }
+    result.all = result.any && prefix_fully_covered(target.bits, candidates);
+    return result;
+}
+
 function format_ipv6_tproxy_target(address, port) {
     address = as_string(address);
     if (substr(address, 0, 1) == "[" && substr(address, length(address) - 1, 1) == "]")
@@ -232,5 +284,6 @@ return {
     ip_family,
     valid_mac,
     ip_in_cidr,
+    cidr_list_coverage,
     format_ipv6_tproxy_target
 };

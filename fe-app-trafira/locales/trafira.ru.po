@@ -1,15 +1,15 @@
 # RU translations for TRAFIRA package.
 # Copyright (C) 2026 THE TRAFIRA COPYRIGHT HOLDER
 # This file is distributed under the same license as the TRAFIRA package.
-# DrRamm, 2026.
+# petrouspetr-pixel, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: TRAFIRA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-26 22:43+0300\n"
-"PO-Revision-Date: 2026-09-26 22:43+0300\n"
-"Last-Translator: DrRamm\n"
+"POT-Creation-Date: 2026-09-30 23:48+0300\n"
+"PO-Revision-Date: 2026-09-30 23:48+0300\n"
+"Last-Translator: petrouspetr-pixel\n"
 "Language-Team: none\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -1313,6 +1313,9 @@ msgstr "Порт смешанного прокси"
 msgid "Mixed Proxy Username"
 msgstr "Логин смешанного прокси"
 
+msgid "Mixed routing"
+msgstr "Разные маршруты"
+
 msgid "Monitored Interfaces"
 msgstr "Наблюдаемые интерфейсы"
 
@@ -1912,6 +1915,9 @@ msgstr "Сервис sing-box существует"
 
 msgid "Sing-box version is compatible (newer than 1.12.4)"
 msgstr "Версия Sing-box совместима (новее 1.12.4)"
+
+msgid "Some addresses use Trafira; others connect directly"
+msgstr "Часть адресов использует Trafira, остальные подключаются напрямую"
 
 msgid "Some DHCP lease entries were invalid and skipped."
 msgstr "Некоторые записи DHCP leases некорректны и пропущены."

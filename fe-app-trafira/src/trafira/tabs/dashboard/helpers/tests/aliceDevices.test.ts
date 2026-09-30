@@ -30,6 +30,10 @@ function device(overrides: Partial<Trafira.AliceDevice>): Trafira.AliceDevice {
 }
 
 describe('groupAliceDevices', () => {
+  it('keeps devices whose addresses use different routes visible', () => {
+    const mixed = device({ name: 'dual-stack', status: 'mixed' });
+    expect(groupAliceDevices([mixed]).mixed).toEqual([mixed]);
+  });
   it('groups by status with online devices first', () => {
     const groups = groupAliceDevices([
       device({ name: 'b-offline', status: 'trafira' }),

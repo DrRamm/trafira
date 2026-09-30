@@ -210,21 +210,27 @@ function wireguard_devices(dump, peer_sections, now) {
     return { devices, malformed };
 }
 
-// Device IPs may be CIDRs for site-to-site peers; the network address stands in for them.
-function device_match_ips(device) {
-    return map(device.ips, (ip) => {
-        let slash = index(ip, "/");
-        return slash >= 0 ? substr(ip, 0, slash) : ip;
-    });
-}
-
 function classify(device, alice, captured_interfaces) {
     let captured = alice_config.interface_in_list(captured_interfaces, device.interface);
-    let matched_by = alice_config.match_device(alice, { ...device, ips: device_match_ips(device) });
+    // Interface and MAC matches apply to every address. IP matches apply to
+    // individual packets, so a dual-stack device or site subnet can be mixed.
+    let matched_by = alice_config.match_device(alice, { ...device, ips: [] });
+    let has_matched = matched_by != null;
+    let has_unmatched = false;
+    if (matched_by == null) {
+        for (let ip in device.ips) {
+            let coverage = core_ip.cidr_list_coverage(ip, alice.ips);
+            has_matched = has_matched || coverage.any;
+            has_unmatched = has_unmatched || !coverage.all;
+            if (matched_by == null && coverage.matched != null)
+                matched_by = "ip:" + coverage.matched;
+        }
+    }
 
     device.matched_by = matched_by;
     device.status = !captured ? "not_captured" :
-        (alice_config.routes_through_trafira(alice, matched_by) ? "trafira" : "direct");
+        (has_matched && has_unmatched ? "mixed" :
+            (alice_config.routes_through_trafira(alice, matched_by) ? "trafira" : "direct"));
     return device;
 }
 

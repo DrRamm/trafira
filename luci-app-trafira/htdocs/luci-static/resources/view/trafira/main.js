@@ -864,6 +864,7 @@ function groupAliceDevices(devices) {
   const groups = {
     trafira: [],
     direct: [],
+    mixed: [],
     not_captured: []
   };
   devices.forEach((device) => groups[device.status]?.push(device));
@@ -938,6 +939,11 @@ var GROUPS = [
     status: "direct",
     title: () => _("Direct"),
     hint: () => _("Bypass Trafira; DNS returns real addresses")
+  },
+  {
+    status: "mixed",
+    title: () => _("Mixed routing"),
+    hint: () => _("Some addresses use Trafira; others connect directly")
   },
   {
     status: "not_captured",
@@ -1090,7 +1096,7 @@ function renderAliceDevices({
   }
   const groups = groupAliceDevices(report.devices);
   const visibleGroups = GROUPS.filter(
-    (group) => group.status !== "not_captured" || groups.not_captured.length
+    (group) => group.status !== "not_captured" && group.status !== "mixed" || groups[group.status].length
   );
   return E("div", { class: BLOCK }, [
     E("div", { class: `${BLOCK}__header` }, [

@@ -42,6 +42,11 @@ const GROUPS: Array<{
     hint: () => _('Bypass Trafira; DNS returns real addresses'),
   },
   {
+    status: 'mixed',
+    title: () => _('Mixed routing'),
+    hint: () => _('Some addresses use Trafira; others connect directly'),
+  },
+  {
     status: 'not_captured',
     title: () => _('Not captured'),
     hint: () => _('Interface is not in Source Network Interface'),
@@ -223,7 +228,9 @@ export function renderAliceDevices({
 
   const groups = groupAliceDevices(report.devices);
   const visibleGroups = GROUPS.filter(
-    (group) => group.status !== 'not_captured' || groups.not_captured.length,
+    (group) =>
+      (group.status !== 'not_captured' && group.status !== 'mixed') ||
+      groups[group.status].length,
   );
 
   return E('div', { class: BLOCK }, [
