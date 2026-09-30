@@ -35,12 +35,25 @@ const COMMUNITY_SERVICES = {
     github: true
 };
 
+// These published community sets include address rules as well as domains.
+const COMMUNITY_MIXED_SERVICES = {
+    discord: true, meta: true, twitter: true, cloudflare: true,
+    cloudfront: true, digitalocean: true, hetzner: true, ovh: true,
+    telegram: true, roblox: true
+};
+
 function as_string(value) {
     return value == null ? "" : "" + value;
 }
 
 function is_community(name) {
     return COMMUNITY_SERVICES[as_string(name)] === true;
+}
+
+function community_kind(name) {
+    if (!is_community(name))
+        return "unknown";
+    return COMMUNITY_MIXED_SERVICES[as_string(name)] === true ? "mixed" : "domains";
 }
 
 function community_url(name) {
@@ -105,6 +118,7 @@ function remote_format(reference) {
 function module_exports() {
     return {
         is_community,
+        community_kind,
         community_url,
         hash12,
         file_extension,

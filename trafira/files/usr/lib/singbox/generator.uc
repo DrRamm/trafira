@@ -26,6 +26,7 @@ let runtime_supports_xhttp = true;
 let runtime_sing_box_version = "";
 let runtime_subscription_tags = {};
 let runtime_section_states = {};
+let runtime_response_rulesets = {};
 
 let as_string = common.as_string;
 let read_json_file = common.read_json_file;
@@ -365,7 +366,9 @@ function ensure_custom_ruleset(config, reference) {
 
     if (runtime_rulesets.is_community(reference)) {
         tag_name = "builtin-" + reference + "-ruleset";
-        kind = "domains";
+        kind = runtime_rulesets.community_kind(reference);
+        if (kind == "mixed")
+            runtime_response_rulesets[tag_name] = true;
         if (!ruleset_registered(config, tag_name)) {
             let rule_set = {
                 type: "remote",
@@ -2408,6 +2411,8 @@ function ensure_community_ruleset(config, section_name, community) {
         runtime_generate_unsupported("unknown community list " + community);
 
     let tag_name = ruleset_tag(section_name, community, "community");
+    if (runtime_rulesets.community_kind(community) == "mixed")
+        runtime_response_rulesets[tag_name] = true;
     if (!ruleset_registered(config, tag_name)) {
         let rule_set = {
             type: "remote",
@@ -2423,7 +2428,7 @@ function ensure_community_ruleset(config, section_name, community) {
     }
     return {
         tag: tag_name,
-        kind: "domains"
+        kind: runtime_rulesets.community_kind(community)
     };
 }
 
@@ -2443,36 +2448,65 @@ function source_file_exists(path) {
     return fs.readfile(path) != null;
 }
 
+function local_list_rebuild_failed(ruleset_path, message) {
+    if (source_rulesets.has_rules(ruleset_path)) {
+        warn(message, "; preserving previous materialized list\n");
+        return;
+    }
+    runtime_generate_unsupported(message + "; no previous materialized list is available");
+}
+
 function rebuild_local_domain_ip_list_ruleset(section_name, references, domains_only) {
     let ruleset_path = domain_ip_list_ruleset_path(section_name);
     let has_local = false;
-
+    let has_remote = false;
     for (let reference in references) {
-        if (reference_is_local(reference)) {
+        if (reference_is_local(reference))
             has_local = true;
-            break;
-        }
+        else
+            has_remote = true;
     }
-
     if (!has_local)
         return;
-
-    fs.unlink(ruleset_path);
-    source_rulesets.create_source(ruleset_path);
-
-    for (let reference in references) {
-        reference = as_string(reference);
-        if (!reference_is_local(reference))
-            continue;
-        if (!source_file_exists(reference)) {
-            warn("local domain/IP list not found: ", reference, "\n");
-            continue;
-        }
-
-        source_rulesets.import_plain_list(reference, ruleset_path, "domain_suffix", "domains", "5000");
-        if (!domains_only)
-            source_rulesets.import_plain_list(reference, ruleset_path, "ip_cidr", "subnets", "5000");
+    // The updater owns combined local/remote materialization. Rebuilding just its
+    // local portion here would discard the downloaded remote entries.
+    if (has_remote) {
+        local_list_rebuild_failed(ruleset_path,
+            "mixed local/remote list replacement requires the list updater");
+        return;
     }
+    for (let reference in references) {
+        if (!source_file_exists(reference)) {
+            local_list_rebuild_failed(ruleset_path, "local domain/IP list not found: " + reference);
+            return;
+        }
+    }
+
+    let stamp = clock();
+    let staged_path = sprintf("%s.%d.%d.stage", ruleset_path, stamp[0], stamp[1]);
+    if (!ensure_parent_dir(staged_path)) {
+        local_list_rebuild_failed(ruleset_path, "unable to prepare local domain/IP list staging directory");
+        return;
+    }
+    let replacement = { version: 3, rules: [] };
+    for (let reference in references) {
+        // Parse each source separately so a failed or invalid member cannot be
+        // concealed by valid rules from an earlier member of the replacement.
+        source_rulesets.create_source(staged_path);
+        source_rulesets.import_plain_list(reference, staged_path, "domain_suffix", "domains", "5000");
+        if (!domains_only)
+            source_rulesets.import_plain_list(reference, staged_path, "ip_cidr", "subnets", "5000");
+        let parsed = read_json_file(staged_path);
+        fs.unlink(staged_path);
+        if (type(parsed) != "object" || type(parsed.rules) != "array" || length(parsed.rules) == 0) {
+            local_list_rebuild_failed(ruleset_path, "local domain/IP list has no valid rules: " + reference);
+            return;
+        }
+        for (let rule in parsed.rules)
+            push(replacement.rules, rule);
+    }
+    if (!atomic_write_json_file(ruleset_path, replacement))
+        local_list_rebuild_failed(ruleset_path, "unable to publish local domain/IP lists for " + section_name);
 }
 
 function add_domain_ip_list_ruleset(config, section_name, rule_set_tags, dns_rule_set_tags, references, domains_only) {
@@ -2641,6 +2675,29 @@ function add_source_aware_bypass_dns_rules(config, matchers, rewrite_ttl) {
     push_dns_matcher_rule(config, fallback);
 }
 
+function ruleset_has_address_matchers(value) {
+    if (type(value) == "array") {
+        for (let item in value)
+            if (ruleset_has_address_matchers(item))
+                return true;
+    }
+    else if (type(value) == "object") {
+        if (value.ip_cidr != null || value.ip_is_private != null)
+            return true;
+        return ruleset_has_address_matchers(value.rules);
+    }
+    return false;
+}
+
+function dns_ruleset_needs_response(config, tag_name) {
+    if (runtime_response_rulesets[tag_name])
+        return true;
+    for (let entry in config.route.rule_set)
+        if (entry.tag == tag_name && entry.type == "local" && entry.format == "source")
+            return ruleset_has_address_matchers(read_json_file(entry.path));
+    return false;
+}
+
 function add_section_dns_matcher_rule(config, section, matchers, rewrite_ttl) {
     let source_ip_cidr = legacy_condition_values(section, "source_ip_cidr");
     add_source_dns_matchers(matchers, source_ip_cidr);
@@ -2654,6 +2711,71 @@ function add_section_dns_matcher_rule(config, section, matchers, rewrite_ttl) {
     matchers.server = section_dns_server(section);
     matchers.rewrite_ttl = rewrite_ttl;
     push_dns_matcher_rule(config, matchers);
+}
+
+function add_section_ruleset_dns_rules(config, section, tags, rewrite_ttl, server_tag) {
+    let query_tags = [];
+    let response_tags = [];
+    for (let tag_name in tags) {
+        if (!sing_box_uses_legacy_independent_cache(runtime_sing_box_version) &&
+            dns_ruleset_needs_response(config, tag_name))
+            push(response_tags, tag_name);
+        else
+            push(query_tags, tag_name);
+    }
+    let source_ip_cidr = legacy_condition_values(section, "source_ip_cidr");
+    if (length(query_tags) > 0) {
+        let query = { rule_set: single_or_array(query_tags) };
+        if (option(section, "action", "") != "dns")
+            add_section_dns_matcher_rule(config, section, query, rewrite_ttl);
+        else {
+            add_source_dns_matchers(query, source_ip_cidr);
+            query.action = "route";
+            query.server = server_tag;
+            query.rewrite_ttl = rewrite_ttl;
+            push_dns_matcher_rule(config, query);
+        }
+    }
+    if (length(response_tags) == 0)
+        return;
+
+    if (option(section, "action", "") == "bypass" && length(source_ip_cidr) > 0) {
+        // Preserve dnsmasq's local records and split DNS, but never return its
+        // cached FakeIP answer to a source explicitly bypassing the proxy.
+        let probe = { action: "evaluate", server: runtime_constants.DNSMASQ_DNS_SERVER_TAG, rewrite_ttl };
+        add_source_dns_matchers(probe, source_ip_cidr);
+        push_dns_matcher_rule(config, probe);
+        let local_answer = { rule_set: single_or_array(response_tags), match_response: true };
+        add_source_dns_matchers(local_answer, source_ip_cidr);
+        push_dns_matcher_rule(config, {
+            type: "logical",
+            mode: "and",
+            rules: [ local_answer, {
+                ip_cidr: [ runtime_constants.FAKEIP_INET4_RANGE, runtime_constants.FAKEIP_INET6_RANGE ],
+                match_response: true,
+                invert: true
+            } ],
+            action: "respond"
+        });
+    }
+
+    // Address rules must see a real answer. Keep the original section destination
+    // (including FakeIP) after the response matches either its domains or addresses.
+    let evaluate = {
+        action: "evaluate",
+        server: option(section, "action", "") == "dns" ? server_tag : runtime_constants.DNS_SERVER_TAG
+    };
+    add_source_dns_matchers(evaluate, source_ip_cidr);
+    push_dns_matcher_rule(config, evaluate);
+    let response = {
+        rule_set: single_or_array(response_tags),
+        match_response: true,
+        action: "route",
+        server: server_tag,
+        rewrite_ttl
+    };
+    add_source_dns_matchers(response, source_ip_cidr);
+    push_dns_matcher_rule(config, response);
 }
 
 function source_aware_dns_sources(sections) {
@@ -2747,7 +2869,7 @@ function add_dns_action_rules_for_section(config, section) {
     }
     for (let reference in connections.rule_sets(section)) {
         let ensured = ensure_custom_ruleset(config, as_string(reference));
-        if (ensured.kind == "domains")
+        if (ensured.kind == "domains" || ensured.kind == "mixed")
             push(rule_set_tags, ensured.tag);
     }
     add_domain_ip_list_ruleset(
@@ -2786,16 +2908,7 @@ function add_dns_action_rules_for_section(config, section) {
         add_source_dns_matchers(dns_rule, source_ip_cidr);
         push_dns_matcher_rule(config, dns_rule);
     }
-    if (length(rule_set_tags) > 0) {
-        let dns_rule = {
-            action: "route",
-            server: server_tag,
-            rewrite_ttl,
-            rule_set: single_or_array(rule_set_tags)
-        };
-        add_source_dns_matchers(dns_rule, source_ip_cidr);
-        push_dns_matcher_rule(config, dns_rule);
-    }
+    add_section_ruleset_dns_rules(config, section, rule_set_tags, rewrite_ttl, server_tag);
     if (!has_inline_domains && length(rule_set_tags) == 0 && length(fully_routed_ips) == 0)
         runtime_generate_unsupported("DNS action '" + section_name + "' has no domain matchers");
 }
@@ -2905,13 +3018,13 @@ function add_combined_route_for_section(config, section) {
     for (let reference in connections.rule_sets(section)) {
         let ensured = ensure_custom_ruleset(config, as_string(reference));
         push(rule_set_tags, ensured.tag);
-        if (ensured.kind == "domains")
+        if (ensured.kind == "domains" || ensured.kind == "mixed")
             push(dns_rule_set_tags, ensured.tag);
     }
     for (let reference in connections.rule_sets_with_subnets(section)) {
         let ensured = ensure_custom_ruleset(config, as_string(reference));
         push(rule_set_tags, ensured.tag);
-        if (ensured.kind == "domains")
+        if (ensured.kind == "domains" || ensured.kind == "mixed")
             push(dns_rule_set_tags, ensured.tag);
     }
     add_domain_ip_list_ruleset(
@@ -2941,20 +3054,29 @@ function add_combined_route_for_section(config, section) {
     if (length(source_ip_cidr) > 0)
         route_rule.source_ip_cidr = source_ip_cidr;
     add_port_matchers(route_rule, section);
-    if (length(rule_set_tags) > 0)
-        route_rule.rule_set = single_or_array(rule_set_tags);
-
-    let has_route_matchers = route_rule.domain != null || route_rule.domain_suffix != null ||
+    // Inline destinations and a rule-set are alternatives. A default rule combines
+    // these groups with AND on modern sing-box, so emit independent ordered rules.
+    let has_inline = route_rule.domain != null || route_rule.domain_suffix != null ||
         route_rule.domain_keyword != null || route_rule.domain_regex != null ||
-        route_rule.ip_cidr != null || route_rule.port != null || route_rule.port_range != null ||
-        route_rule.rule_set != null;
-    if (has_route_matchers) {
-        let resolve = runtime_route.resolve_rule_for_section(section, route_rule);
+        route_rule.ip_cidr != null;
+    let alternatives = [];
+    if (has_inline || (length(rule_set_tags) == 0 &&
+        (route_rule.port != null || route_rule.port_range != null)))
+        push(alternatives, route_rule);
+    if (length(rule_set_tags) > 0) {
+        let list_rule = copy_dns_matchers(route_rule);
+        for (let key in [ "domain", "domain_suffix", "domain_keyword", "domain_regex", "ip_cidr" ])
+            delete list_rule[key];
+        list_rule.rule_set = single_or_array(rule_set_tags);
+        push(alternatives, list_rule);
+    }
+    for (let alternative in alternatives) {
+        let resolve = runtime_route.resolve_rule_for_section(section, alternative);
         if (type(resolve) == "object" && resolve.warning)
             warn(resolve.warning, "\n");
         else if (type(resolve) == "object" && resolve.rule)
             push(config.route.rules, resolve.rule);
-        push(config.route.rules, route_rule);
+        push(config.route.rules, alternative);
     }
 
     let rewrite_ttl = int_option(runtime_settings(), "dns_rewrite_ttl", "60");
@@ -2966,11 +3088,8 @@ function add_combined_route_for_section(config, section) {
         add_domain_array(dns_rule, "domain_regex", domain_regex);
         add_section_dns_matcher_rule(config, section, dns_rule, rewrite_ttl);
     }
-    if (length(dns_rule_set_tags) > 0) {
-        add_section_dns_matcher_rule(config, section, {
-            rule_set: single_or_array(dns_rule_set_tags)
-        }, rewrite_ttl);
-    }
+    add_section_ruleset_dns_rules(config, section, dns_rule_set_tags, rewrite_ttl,
+        section_dns_server(section));
 }
 
 function unsupported_matcher_key(section) {
@@ -3158,6 +3277,7 @@ function add_server_routes(config, servers, sections) {
 function generate_config(output_path, service_address, mwan3_active, supports_xhttp, deferred_sections, sing_box_version) {
     runtime_subscription_tags = {};
     runtime_section_states = {};
+    runtime_response_rulesets = {};
     runtime_supports_xhttp = supports_xhttp == null || as_string(supports_xhttp) == ""
         ? true
         : cli_bool(supports_xhttp);
