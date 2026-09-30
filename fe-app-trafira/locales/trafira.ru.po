@@ -1,15 +1,15 @@
 # RU translations for TRAFIRA package.
 # Copyright (C) 2026 THE TRAFIRA COPYRIGHT HOLDER
 # This file is distributed under the same license as the TRAFIRA package.
-# ushan0v, 2026.
+# petrouspetr-pixel, 2026.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: TRAFIRA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-18 07:01+0300\n"
-"PO-Revision-Date: 2026-07-18 07:01+0300\n"
-"Last-Translator: ushan0v\n"
+"POT-Creation-Date: 2026-09-30 23:48+0300\n"
+"PO-Revision-Date: 2026-09-30 23:48+0300\n"
+"Last-Translator: petrouspetr-pixel\n"
 "Language-Team: none\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,27 @@ msgstr ""
 
 msgid "-- Select --"
 msgstr "-- Выберите --"
+
+msgid "%d d"
+msgstr "%d д"
+
+msgid "%d h"
+msgstr "%d ч"
+
+msgid "%d min"
+msgstr "%d мин"
+
+msgid "%d of %d online"
+msgstr "%d из %d в сети"
+
+msgid "%d s"
+msgstr "%d с"
+
+msgid "%s ago"
+msgstr "%s назад"
+
+msgid "%s subnet"
+msgstr "подсеть %s"
 
 msgid "+ Add JSON outbound"
 msgstr "+ Добавить JSON outbound"
@@ -37,6 +58,9 @@ msgstr "✔ Работает"
 
 msgid "✘ Stopped"
 msgstr "✘ Остановлен"
+
+msgid "Absolute path to an existing file on the router. Enter the path, not the file contents."
+msgstr "Абсолютный путь к существующему файлу на роутере. Введите путь, а не содержимое файла."
 
 msgid "Accept external proxy connections and route them with sing-box."
 msgstr "Принимает внешние прокси-подключения и маршрутизирует их через sing-box."
@@ -59,20 +83,26 @@ msgstr "Активные соединения"
 msgid "Active Main DNS"
 msgstr "Активный основной DNS"
 
+msgid "Add %s to Source Network Interface first"
+msgstr "Сначала добавьте %s в «Сетевой интерфейс источника»"
+
 msgid "Add a section"
 msgstr "Добавить секцию"
 
 msgid "Add a server inbound"
 msgstr "Добавить серверный inbound"
 
+msgid "Add an interface to match all its clients, such as every peer on a WireGuard server. It must also be selected in Source Network Interface."
+msgstr "Добавьте интерфейс, чтобы включить в список всех его клиентов, например всех пиров WireGuard. Он также должен быть выбран в поле «Сетевой интерфейс источника»."
+
 msgid "Add at least one DNS server"
 msgstr "Добавьте хотя бы один DNS-сервер"
 
+msgid "Add IPv4 and IPv6 addresses or subnets as separate entries. For LAN or Wi-Fi devices, use a MAC address if the IP may change. IP addresses can be spoofed."
+msgstr "Добавляйте адреса и подсети IPv4 и IPv6 отдельными записями. Если IP-адрес устройства в LAN или Wi-Fi может измениться, укажите его MAC-адрес. IP-адрес можно подменить."
+
 msgid "Add prefix to nodes"
 msgstr "Добавлять префикс к узлам"
-
-msgid "Add URLs or local paths to .lst lists containing domains, IP addresses, or CIDR ranges. DNS actions ignore IP entries."
-msgstr "Добавьте URL или локальные пути к спискам .lst с доменами, IP-адресами или CIDR-подсетями. Для действия DNS записи IP игнорируются."
 
 msgid "Add URLs or local paths to .lst lists containing domains and subnets."
 msgstr "Добавьте URL или локальные пути к спискам .lst с доменами и подсетями."
@@ -80,11 +110,11 @@ msgstr "Добавьте URL или локальные пути к списка�
 msgid "Add URLs or local paths to .lst lists containing domains. IP entries are ignored."
 msgstr "Добавьте URL или локальные пути к спискам .lst с доменами. IP игнорируются."
 
-msgid "Add URLs or local paths to .srs / .json lists. Subnets are ignored by default."
-msgstr "Добавьте URL или локальные пути к спискам .srs / .json. Подсети по умолчанию игнорируются."
-
 msgid "Add URLs or local paths to .srs / .json lists. Only domain rules are supported."
 msgstr "Добавьте URL или локальные пути к спискам .srs / .json. Поддерживаются только доменные правила."
+
+msgid "Add URLs or local paths to .srs / .json lists. Subnets are ignored by default."
+msgstr "Добавьте URL или локальные пути к спискам .srs / .json. Подсети по умолчанию игнорируются."
 
 msgid "Add URLTest / Priority group"
 msgstr "Добавить URLTest / Приоритет группу"
@@ -112,6 +142,15 @@ msgstr "Анонсировать exit node"
 
 msgid "Advertise routes"
 msgstr "Анонсировать маршруты"
+
+msgid "After a connection failure, retry the skipped server after this duration"
+msgstr "После ошибки соединения повторять попытку через этот интервал"
+
+msgid "Alice Mode"
+msgstr "Маршрутизация по устройствам"
+
+msgid "Alice Mode devices are currently unavailable"
+msgstr "Данные об устройствах временно недоступны"
 
 msgid "All"
 msgstr "Все"
@@ -245,6 +284,12 @@ msgstr "Стратегия ByeDPI"
 msgid "ByeDPI strategy cannot be empty"
 msgstr "Стратегия ByeDPI не может быть пустой"
 
+msgid "Bypass Trafira"
+msgstr "Идут в обход Trafira"
+
+msgid "Bypass Trafira; DNS returns real addresses"
+msgstr "В обход Trafira, DNS возвращает реальные адреса"
+
 msgid "Cache File Path"
 msgstr "Путь к файлу кэша"
 
@@ -296,8 +341,14 @@ msgstr "Проверки пройдены"
 msgid "Checks passed with manual DHCP"
 msgstr "Проверки пройдены с ручным DHCP"
 
+msgid "Choose whether devices in the list use Trafira or bypass it. Bypassed devices connect directly and receive real IP addresses from DNS."
+msgstr "Выберите, будут ли устройства из списка идти через Trafira или в обход. Устройства в обход подключаются напрямую и получают от DNS реальные IP-адреса."
+
 msgid "CIDR must be between 0 and 32 for IPv4 or 0 and 128 for IPv6"
 msgstr "CIDR должен быть от 0 до 32 для IPv4 или от 0 до 128 для IPv6"
+
+msgid "Client certificate file"
+msgstr "Файл клиентского сертификата"
 
 msgid "Client fingerprint"
 msgstr "Отпечаток клиента"
@@ -310,6 +361,9 @@ msgstr "Ссылка клиента пока недоступна"
 
 msgid "Client link QR code"
 msgstr "QR-код клиентской ссылки"
+
+msgid "Client private key file"
+msgstr "Файл закрытого ключа клиента"
 
 msgid "Close"
 msgstr "Закрыть"
@@ -419,11 +473,23 @@ msgstr "Фильтр по устройствам"
 msgid "Device or IP"
 msgstr "Устройство или IP"
 
+msgid "Device or MAC"
+msgstr "Устройство или MAC"
+
+msgid "Device, subnet or IP"
+msgstr "Устройство, подсеть или IP"
+
+msgid "Devices in the list"
+msgstr "Устройства из списка"
+
 msgid "DHCP has DNS server"
 msgstr "DHCP содержит DNS сервер"
 
 msgid "DHCP is managed manually"
 msgstr "DHCP управляется вручную"
+
+msgid "DHCP leases are unavailable; device names may be missing."
+msgstr "Файл DHCP leases недоступен — имена устройств могут отсутствовать."
 
 msgid "Diagnostics"
 msgstr "Диагностика"
@@ -451,6 +517,9 @@ msgstr "Отображаемое имя"
 
 msgid "DNS Check Interval"
 msgstr "Период проверки DNS"
+
+msgid "DNS Failures Before Switching"
+msgstr "Ошибок DNS перед переключением"
 
 msgid "DNS on router"
 msgstr "DNS на роутере"
@@ -494,6 +563,9 @@ msgstr "DNS-серверы"
 msgid "DNS Strategy"
 msgstr "Стратегия DNS"
 
+msgid "DNS Successful Checks Before Recovery"
+msgstr "Успешных проверок DNS перед восстановлением"
+
 msgid "DNS through proxy"
 msgstr "DNS через прокси"
 
@@ -526,6 +598,12 @@ msgstr "Не тестировать указанные серверы."
 
 msgid "Does not resolve"
 msgstr "Не резолвится"
+
+msgid "DoH certificate hostname"
+msgstr "Имя хоста для сертификата DoH"
+
+msgid "DoH client certificate authentication"
+msgstr "Аутентификация DoH клиентским сертификатом"
 
 msgid "Domain and IP lists"
 msgstr "Списки доменов и IP"
@@ -593,6 +671,9 @@ msgstr "Изменить"
 msgid "Enable"
 msgstr "Включить"
 
+msgid "Enable Alice Mode"
+msgstr "Включить маршрутизацию по устройствам"
+
 msgid "Enable authentication"
 msgstr "Включить авторизацию"
 
@@ -637,6 +718,9 @@ msgstr "Введите название уровня"
 
 msgid "Enter a valid DNS server address"
 msgstr "Укажите корректный адрес DNS-сервера"
+
+msgid "Enter an absolute file path"
+msgstr "Введите абсолютный путь к файлу"
 
 msgid "Enter HWID"
 msgstr "Укажите HWID"
@@ -692,6 +776,9 @@ msgstr "Внешние конфиги nfqws обходят управление 
 msgid "External nfqws2 config files bypass Trafira queue management and explicit validation."
 msgstr "Внешние конфиги nfqws2 обходят управление очередями и явную валидацию Trafira."
 
+msgid "Failed server retry interval"
+msgstr "Интервал повторной попытки для недоступного сервера"
+
 msgid "Failed to close connection"
 msgstr "Не удалось закрыть подключение"
 
@@ -706,6 +793,9 @@ msgstr "Не удалось выполнить"
 
 msgid "Failed to update subscriptions"
 msgstr "Не удалось обновить подписки"
+
+msgid "Failover implementation"
+msgstr "Реализация переключения при сбое"
 
 msgid "FakeIP and control checks use different public IPs"
 msgstr "FakeIP и контрольная проверка используют разные публичные IP"
@@ -739,63 +829,6 @@ msgstr "Исправьте подсвеченные поля и сохранит
 
 msgid "Forced device routing"
 msgstr "Принудительная маршрутизация устройств"
-
-msgid "Trafira Error"
-msgstr "Ошибка Trafira"
-
-msgid "Trafira manages ciadpi pid files itself, so pidfile options are not allowed here."
-msgstr "Trafira сам управляет pid-файлами ciadpi, поэтому параметры pidfile здесь запрещены."
-
-msgid "Trafira manages the ciadpi process lifecycle itself, so daemon mode is not allowed here."
-msgstr "Trafira сам управляет жизненным циклом ciadpi, поэтому режим daemon здесь запрещён."
-
-msgid "Trafira manages the nfqws process lifecycle itself, so daemon mode is not allowed here."
-msgstr "Trafira сам управляет жизненным циклом nfqws, поэтому режим daemon здесь запрещён."
-
-msgid "Trafira manages the nfqws2 process lifecycle itself, so daemon mode is not allowed here."
-msgstr "Trafira сам управляет жизненным циклом nfqws2, поэтому режим daemon здесь запрещён."
-
-msgid "Trafira service is stopped. Start the service to display connections."
-msgstr "Служба Trafira остановлена. Запустите сервис для отображения подключений."
-
-msgid "Trafira service is stopped. Start the service to display the dashboard."
-msgstr "Служба Trafira остановлена. Запустите сервис для отображения дашборда."
-
-msgid "Trafira Settings"
-msgstr "Настройки Trafira"
-
-msgid "Trafira will not modify your DHCP configuration"
-msgstr "Trafira не будет изменять вашу конфигурацию DHCP"
-
-msgid "Trafira-managed ciadpi runtime has restarted"
-msgstr "ciadpi Trafira перезапускался"
-
-msgid "Trafira-managed ciadpi runtime is not ready"
-msgstr "ciadpi Trafira не готов"
-
-msgid "Trafira-managed ciadpi runtime is not running"
-msgstr "ciadpi Trafira не запущен"
-
-msgid "Trafira-managed ciadpi runtime is ready"
-msgstr "ciadpi Trafira готов"
-
-msgid "Trafira-managed nfqws runtime is not ready"
-msgstr "NFQWS Trafira не готов"
-
-msgid "Trafira-managed nfqws runtime is not running"
-msgstr "NFQWS Trafira не запущен"
-
-msgid "Trafira-managed nfqws runtime is ready"
-msgstr "NFQWS Trafira готов"
-
-msgid "Trafira-managed nfqws2 runtime is not ready"
-msgstr "NFQWS2 Trafira не готов"
-
-msgid "Trafira-managed nfqws2 runtime is not running"
-msgstr "NFQWS2 Trafira не запущен"
-
-msgid "Trafira-managed nfqws2 runtime is ready"
-msgstr "NFQWS2 Trafira готов"
 
 msgid "Fronting IP"
 msgstr "IP фронтинга"
@@ -878,6 +911,9 @@ msgstr "Проверка верхних DNS"
 msgid "Host"
 msgstr "Хост"
 
+msgid "Hostname of a configured main DoH server, without a scheme, port or path."
+msgstr "Имя хоста настроенного основного DoH-сервера без протокола, порта и пути."
+
 msgid "How often higher priority levels are checked while a lower level is active"
 msgstr "Как часто проверять верхние уровни приоритета, пока активен нижний уровень"
 
@@ -944,6 +980,12 @@ msgstr "Установить другую сборку:"
 msgid "Installed version is newer than release"
 msgstr "Установлена версия новее релиза"
 
+msgid "Interface %s is in the device list but not selected in Source Network Interface, so its rule has no effect."
+msgstr "Интерфейс %s добавлен в список устройств, но не выбран в поле «Сетевой интерфейс источника» — правило для него не действует."
+
+msgid "Interface is not in Source Network Interface"
+msgstr "Интерфейса нет в «Сетевой интерфейс источника»"
+
 msgid "Interface Monitoring"
 msgstr "Мониторинг интерфейса"
 
@@ -952,6 +994,12 @@ msgstr "Задержка при мониторинге интерфейсов"
 
 msgid "Interface monitoring for Bad WAN"
 msgstr "Мониторинг интерфейса для Bad WAN"
+
+msgid "Interface or mask, e.g. wg*"
+msgstr "Интерфейс или маска, например wg*"
+
+msgid "Interfaces"
+msgstr "Интерфейсы"
 
 msgid "Interrupt connections"
 msgstr "Прерывать соединения"
@@ -973,6 +1021,9 @@ msgstr "Неверный префикс CIDR"
 
 msgid "Invalid DNS server format. Examples: 8.8.8.8 or dns.example.com or dns.example.com/nicedns for DoH"
 msgstr "Неверный формат DNS-сервера. Примеры: 8.8.8.8, dns.example.com или dns.example.com/nicedns для DoH"
+
+msgid "Invalid DNS server port"
+msgstr "Неверный порт DNS-сервера"
 
 msgid "Invalid domain address"
 msgstr "Неверный домен"
@@ -1022,11 +1073,17 @@ msgstr "Неверный URL Hysteria2: sni не может быть пусты�
 msgid "Invalid HY2 URL: unsupported obfs type"
 msgstr "Неверный URL Hysteria2: неподдерживаемый тип obfs"
 
+msgid "Invalid interface name"
+msgstr "Неверное имя интерфейса"
+
 msgid "Invalid IP address"
 msgstr "Неверный IP-адрес"
 
 msgid "Invalid JSON format"
 msgstr "Неверный формат JSON"
+
+msgid "Invalid MAC address. Use the aa:bb:cc:dd:ee:ff format"
+msgstr "Неверный MAC-адрес. Используйте формат aa:bb:cc:dd:ee:ff"
 
 msgid "Invalid NFQWS2 strategy"
 msgstr "Некорректная стратегия NFQWS2"
@@ -1076,9 +1133,6 @@ msgstr "Неверный URL Shadowsocks: ошибка разбора"
 msgid "Invalid SOCKS URL: invalid host and port"
 msgstr "Некорректный SOCKS URL: некорректные хост и порт"
 
-msgid "Invalid SOCKS URL: invalid host format"
-msgstr "Неверный URL SOCKS: неверный формат хоста"
-
 msgid "Invalid SOCKS URL: invalid port number"
 msgstr "Неверный URL SOCKS: неверный номер порта"
 
@@ -1121,6 +1175,9 @@ msgstr "Неверный URL VLESS: ошибка разбора"
 msgid "Invalid VMess URL: parsing failed"
 msgstr "Некорректный VMess URL: ошибка разбора"
 
+msgid "IP addresses and subnets"
+msgstr "IP-адреса и подсети"
+
 msgid "IPs"
 msgstr "IP-адреса"
 
@@ -1162,6 +1219,12 @@ msgstr "Путь к ключу"
 
 msgid "Keyword must not contain spaces or commas"
 msgstr "Ключевое слово не должно содержать пробелы или запятые"
+
+msgid "LAN device data is unavailable; LAN devices may be missing."
+msgstr "Данные об устройствах LAN недоступны — список может быть неполным."
+
+msgid "Last WireGuard handshake"
+msgstr "Последнее рукопожатие WireGuard"
 
 msgid "Latency test failed"
 msgstr "Проверка задержки не удалась"
@@ -1211,6 +1274,9 @@ msgstr "Загрузка..."
 msgid "Log Level"
 msgstr "Уровень логов"
 
+msgid "MAC addresses"
+msgstr "MAC-адреса"
+
 msgid "Main DNS"
 msgstr "Основной DNS"
 
@@ -1222,6 +1288,9 @@ msgstr "Совпадение по IP-адресам или подсетям на
 
 msgid "Match destination ports. Use a single port or a range"
 msgstr "Совпадение по портам назначения. Используйте одиночный порт или диапазон"
+
+msgid "Matched by %s"
+msgstr "Совпадение: %s"
 
 msgid "Maximum time to wait for example.com to resolve during a DNS health check."
 msgstr "Максимальное время ожидания разрешения example.com при проверке доступности DNS."
@@ -1244,6 +1313,9 @@ msgstr "Порт смешанного прокси"
 msgid "Mixed Proxy Username"
 msgstr "Логин смешанного прокси"
 
+msgid "Mixed routing"
+msgstr "Разные маршруты"
+
 msgid "Monitored Interfaces"
 msgstr "Наблюдаемые интерфейсы"
 
@@ -1258,6 +1330,12 @@ msgstr "Имя, которое отображается в дашборде"
 
 msgid "Name shown in the priority level list"
 msgstr "Имя, которое отображается в списке уровней приоритета"
+
+msgid "Native fallback (sing-box extended)"
+msgstr "Нативный fallback (sing-box extended)"
+
+msgid "Native fallback reacts to real connection failures and requires sing-box extended. The watchdog mode works with all supported sing-box variants."
+msgstr "Нативный fallback реагирует на реальные ошибки соединения и требует sing-box extended. Режим контроля Trafira работает со всеми поддерживаемыми вариантами sing-box."
 
 msgid "Network Interface"
 msgstr "Сетевой интерфейс"
@@ -1298,6 +1376,9 @@ msgstr "Нет закрытых подключений"
 msgid "No conflict detected"
 msgstr "Конфликт не обнаружен"
 
+msgid "No devices"
+msgstr "Нет устройств"
+
 msgid "No enabled server inbounds configured"
 msgstr "Включённые серверные inbounds не настроены"
 
@@ -1325,6 +1406,9 @@ msgstr "Узлы"
 msgid "None"
 msgstr "Нет"
 
+msgid "Not captured"
+msgstr "Не перехватываются"
+
 msgid "Not configured"
 msgstr "Не настроено"
 
@@ -1349,11 +1433,20 @@ msgstr "Не отвечает"
 msgid "Not running"
 msgstr "Не запущено"
 
+msgid "Number of consecutive failed checks required before switching DNS servers."
+msgstr "Количество последовательных неудачных проверок, необходимое для переключения DNS-сервера."
+
+msgid "Number of consecutive successful checks required before returning to a higher-priority DNS server."
+msgstr "Количество последовательных успешных проверок, необходимое для возврата к DNS-серверу с более высоким приоритетом."
+
 msgid "Obfuscation"
 msgstr "Обфускация"
 
 msgid "Obfuscation password"
 msgstr "Пароль обфускации"
+
+msgid "Offline: %d"
+msgstr "Не в сети: %d"
 
 msgid "Only from the specified countries."
 msgstr "Только из указанных стран."
@@ -1380,7 +1473,7 @@ msgid "Only the specified servers."
 msgstr "Только указанные серверы."
 
 msgid "Open"
-msgstr ""
+msgstr "Открыть"
 
 msgid "Open priority settings and enter a display name"
 msgstr "Откройте настройки приоритета и укажите отображаемое имя"
@@ -1399,6 +1492,9 @@ msgstr "Необязательное значение здесь нужно пе
 
 msgid "Optional values must be attached with '=' here; a separate token would be ignored by nfqws2."
 msgstr "Необязательные значения здесь должны задаваться через '='; отдельный токен будет проигнорирован nfqws2."
+
+msgid "Other devices do the opposite. Match devices by interface, MAC address or IP address."
+msgstr "Для остальных устройств действует обратное. Сопоставление выполняется по интерфейсу, MAC- или IP-адресу."
 
 msgid "outbounds must be a non-empty array of strings"
 msgstr "outbounds должен быть непустым массивом строк"
@@ -1583,6 +1679,9 @@ msgstr "Режим маршрутизации"
 msgid "Routing rules"
 msgstr "Правила маршрутизации"
 
+msgid "Routing rules and fake DNS apply"
+msgstr "Действуют правила маршрутизации и FakeIP DNS"
+
 msgid "Routing section"
 msgstr "Секция маршрутизации"
 
@@ -1757,8 +1856,14 @@ msgstr "Информация о сервисах"
 msgid "Settings"
 msgstr "Настройки"
 
+msgid "Show each device's routing status on the dashboard."
+msgstr "Показывать на главной странице, как маршрутизируется каждое устройство."
+
 msgid "Show metadata on dashboard"
 msgstr "Отображать метаданные в дашборде"
+
+msgid "Show on dashboard"
+msgstr "Показывать на дашборде"
 
 msgid "Show only selected servers."
 msgstr "Показывать только выбранные серверы."
@@ -1810,6 +1915,18 @@ msgstr "Сервис sing-box существует"
 
 msgid "Sing-box version is compatible (newer than 1.12.4)"
 msgstr "Версия Sing-box совместима (новее 1.12.4)"
+
+msgid "Some addresses use Trafira; others connect directly"
+msgstr "Часть адресов использует Trafira, остальные подключаются напрямую"
+
+msgid "Some DHCP lease entries were invalid and skipped."
+msgstr "Некоторые записи DHCP leases некорректны и пропущены."
+
+msgid "Some LAN neighbor entries were invalid and skipped."
+msgstr "Некоторые записи соседей LAN некорректны и пропущены."
+
+msgid "Some WireGuard peer entries were invalid and skipped."
+msgstr "Некоторые записи пиров WireGuard некорректны и пропущены."
 
 msgid "Sort by latency"
 msgstr "Сортировать по задержке"
@@ -1889,9 +2006,6 @@ msgstr "Интервал обновления подписки"
 msgid "Subscription URL"
 msgstr "URL подписки"
 
-msgid "Subscription URL cannot be empty"
-msgstr "URL подписки не может быть пустым"
-
 msgid "Subscription URL settings"
 msgstr "Настройки URL подписки"
 
@@ -1942,6 +2056,9 @@ msgstr "Тестировать серверы, имена которых сов�
 
 msgid "Testing URL"
 msgstr "URL проверки"
+
+msgid "The allow list is empty, so no devices use Trafira."
+msgstr "Список разрешённых устройств пуст — Trafira не будет обрабатывать трафик ни одного устройства."
 
 msgid "The desync fwmark is managed by Trafira for loop prevention and must not be overridden here."
 msgstr "Desync fwmark управляется Trafira для защиты от циклов и не должен переопределяться здесь."
@@ -2012,6 +2129,66 @@ msgstr "Трафик этого уровня пойдёт напрямую."
 msgid "Traffic Total"
 msgstr "Всего трафика"
 
+msgid "Trafira Error"
+msgstr "Ошибка Trafira"
+
+msgid "Trafira manages ciadpi pid files itself, so pidfile options are not allowed here."
+msgstr "Trafira сам управляет pid-файлами ciadpi, поэтому параметры pidfile здесь запрещены."
+
+msgid "Trafira manages the ciadpi process lifecycle itself, so daemon mode is not allowed here."
+msgstr "Trafira сам управляет жизненным циклом ciadpi, поэтому режим daemon здесь запрещён."
+
+msgid "Trafira manages the nfqws process lifecycle itself, so daemon mode is not allowed here."
+msgstr "Trafira сам управляет жизненным циклом nfqws, поэтому режим daemon здесь запрещён."
+
+msgid "Trafira manages the nfqws2 process lifecycle itself, so daemon mode is not allowed here."
+msgstr "Trafira сам управляет жизненным циклом nfqws2, поэтому режим daemon здесь запрещён."
+
+msgid "Trafira service is stopped. Start the service to display connections."
+msgstr "Служба Trafira остановлена. Запустите сервис для отображения подключений."
+
+msgid "Trafira service is stopped. Start the service to display the dashboard."
+msgstr "Служба Trafira остановлена. Запустите сервис для отображения дашборда."
+
+msgid "Trafira Settings"
+msgstr "Настройки Trafira"
+
+msgid "Trafira watchdog"
+msgstr "Контроль Trafira"
+
+msgid "Trafira will not modify your DHCP configuration"
+msgstr "Trafira не будет изменять вашу конфигурацию DHCP"
+
+msgid "Trafira-managed ciadpi runtime has restarted"
+msgstr "ciadpi Trafira перезапускался"
+
+msgid "Trafira-managed ciadpi runtime is not ready"
+msgstr "ciadpi Trafira не готов"
+
+msgid "Trafira-managed ciadpi runtime is not running"
+msgstr "ciadpi Trafira не запущен"
+
+msgid "Trafira-managed ciadpi runtime is ready"
+msgstr "ciadpi Trafira готов"
+
+msgid "Trafira-managed nfqws runtime is not ready"
+msgstr "NFQWS Trafira не готов"
+
+msgid "Trafira-managed nfqws runtime is not running"
+msgstr "NFQWS Trafira не запущен"
+
+msgid "Trafira-managed nfqws runtime is ready"
+msgstr "NFQWS Trafira готов"
+
+msgid "Trafira-managed nfqws2 runtime is not ready"
+msgstr "NFQWS2 Trafira не готов"
+
+msgid "Trafira-managed nfqws2 runtime is not running"
+msgstr "NFQWS2 Trafira не запущен"
+
+msgid "Trafira-managed nfqws2 runtime is ready"
+msgstr "NFQWS2 Trafira готов"
+
 msgid "Transparent proxy mode is incompatible with action=byedpi because Trafira connects to ciadpi through SOCKS."
 msgstr "Режим прозрачного прокси несовместим с action=byedpi, потому что Trafira подключается к ciadpi через SOCKS."
 
@@ -2060,6 +2237,9 @@ msgstr "Таймаут недоступности"
 msgid "Unexpected ByeDPI strategy argument: %s"
 msgstr "Неожиданный аргумент стратегии ByeDPI: %s"
 
+msgid "Unexpected standalone token. Use explicit flags such as --name or --name=value."
+msgstr "Неожиданный отдельный токен. Используйте явные флаги вида --имя или --имя=значение."
+
 msgid "Unexpected Trafira-managed ciadpi runtime is running"
 msgstr "Обнаружен лишний ciadpi Trafira"
 
@@ -2068,9 +2248,6 @@ msgstr "Обнаружен лишний NFQWS Trafira"
 
 msgid "Unexpected Trafira-managed nfqws2 runtime is running"
 msgstr "Обнаружен лишний NFQWS2 Trafira"
-
-msgid "Unexpected standalone token. Use explicit flags such as --name or --name=value."
-msgstr "Неожиданный отдельный токен. Используйте явные флаги вида --имя или --имя=значение."
 
 msgid "unique UCI identifier"
 msgstr "уникальный идентификатор UCI"
@@ -2147,11 +2324,17 @@ msgstr "Настройки URLTest"
 msgid "Use 32 hex characters"
 msgstr "Укажите 32 hex-символа"
 
+msgid "Use a client certificate only for the specified main DoH server."
+msgstr "Использовать клиентский сертификат только для указанного основного DoH-сервера."
+
 msgid "Use a domain name or IP address"
 msgstr "Используйте доменное имя или IP-адрес"
 
 msgid "Use a duration like 30s, 5m, or 1h30m"
 msgstr "Укажите длительность в формате 30s, 5m или 1h30m"
+
+msgid "Use a MAC address for a LAN or Wi-Fi device to keep matching it when its IP changes. MAC addresses do not apply to WireGuard peers."
+msgstr "Укажите MAC-адрес устройства в LAN или Wi-Fi, чтобы оно продолжало совпадать со списком после смены IP. Для пиров WireGuard MAC-адреса не применяются."
 
 msgid "Use a non-negative integer"
 msgstr "Используйте неотрицательное целое число"
@@ -2186,6 +2369,9 @@ msgstr "Используйте формат длительности sing-box, �
 msgid "Use sing-box duration format like 1d, 12h or 30m"
 msgstr "Используйте формат длительности sing-box, например 1d, 12h или 30m"
 
+msgid "Use Trafira"
+msgstr "Идут через Trafira"
+
 msgid "Used by"
 msgstr "Используется"
 
@@ -2213,6 +2399,9 @@ msgstr "Значение не должно содержать управляющ
 msgid "Via country.is"
 msgstr "Через сервис country.is"
 
+msgid "Via Trafira"
+msgstr "Через Trafira"
+
 msgid "View logs"
 msgstr "Посмотреть логи"
 
@@ -2236,6 +2425,9 @@ msgstr "Что Trafira должен делать при совпадении э�
 
 msgid "When switching to another level, test every server and select the fastest instead of the first working one."
 msgstr "При переходе на другой уровень тестировать все сервера и выбирать самый быстрый, а не первый работающий."
+
+msgid "WireGuard peer data is unavailable; peers may be missing."
+msgstr "Данные о пирах WireGuard недоступны — список может быть неполным."
 
 msgid "XHTTP mode"
 msgstr "Режим XHTTP"
@@ -2290,56 +2482,3 @@ msgstr "sing-box outbound для Zapret2 настроен"
 
 msgid "Zapret2 sing-box outbound is not configured"
 msgstr "sing-box outbound для Zapret2 не настроен"
-
-msgid "DNS Failures Before Switching"
-msgstr "Ошибок DNS перед переключением"
-
-msgid "DNS Successful Checks Before Recovery"
-msgstr "Успешных проверок DNS перед восстановлением"
-
-msgid "Number of consecutive failed checks required before switching DNS servers."
-msgstr "Количество последовательных неудачных проверок, необходимое для переключения DNS-сервера."
-
-msgid "Number of consecutive successful checks required before returning to a higher-priority DNS server."
-msgstr "Количество последовательных успешных проверок, необходимое для возврата к DNS-серверу с более высоким приоритетом."
-msgid "Failover implementation"
-msgstr "Реализация переключения при сбое"
-
-msgid "Trafira watchdog"
-msgstr "Контроль Trafira"
-
-msgid "Failed server retry interval"
-msgstr "Интервал повторной попытки для недоступного сервера"
-
-msgid "After a connection failure, retry the skipped server after this duration"
-msgstr "После ошибки соединения повторять попытку через этот интервал"
-
-msgid "Native fallback (sing-box extended)"
-msgstr "Нативный fallback (sing-box extended)"
-
-msgid "Native fallback reacts to real connection failures and requires sing-box extended. The watchdog mode works with all supported sing-box variants."
-msgstr "Нативный fallback реагирует на реальные ошибки соединения и требует sing-box extended. Режим контроля Trafira работает со всеми поддерживаемыми вариантами sing-box."
-
-msgid "DoH client certificate authentication"
-msgstr "Аутентификация DoH клиентским сертификатом"
-
-msgid "Use a client certificate only for the specified main DoH server."
-msgstr "Использовать клиентский сертификат только для указанного основного DoH-сервера."
-
-msgid "DoH certificate hostname"
-msgstr "Имя хоста для сертификата DoH"
-
-msgid "Hostname of a configured main DoH server, without a scheme, port or path."
-msgstr "Имя хоста настроенного основного DoH-сервера без протокола, порта и пути."
-
-msgid "Client certificate file"
-msgstr "Файл клиентского сертификата"
-
-msgid "Client private key file"
-msgstr "Файл закрытого ключа клиента"
-
-msgid "Absolute path to an existing file on the router. Enter the path, not the file contents."
-msgstr "Абсолютный путь к существующему файлу на роутере. Введите путь, а не содержимое файла."
-
-msgid "Enter an absolute file path"
-msgstr "Введите абсолютный путь к файлу"

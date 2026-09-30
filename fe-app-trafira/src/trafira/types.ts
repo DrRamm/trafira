@@ -76,6 +76,7 @@ export namespace Trafira {
     CHECK_LOGS = 'check_logs',
     CHECK_SING_BOX_LOGS = 'check_sing_box_logs',
     GET_SYSTEM_INFO = 'get_system_info',
+    GET_ALICE_DEVICES = 'get_alice_devices',
     GET_SERVER_CAPABILITIES = 'get_server_capabilities',
     GET_UI_CAPABILITIES = 'get_ui_capabilities',
     GET_UI_STATE = 'get_ui_state',
@@ -493,6 +494,51 @@ export namespace Trafira {
     device_model: string;
     generated_at?: number;
   }
+
+  export type AliceListMode = 'allow' | 'deny';
+
+  export type AliceDeviceStatus =
+    | 'trafira'
+    | 'direct'
+    | 'mixed'
+    | 'not_captured';
+
+  export interface AliceDevice {
+    kind: 'lan' | 'wireguard';
+    name: string;
+    mac: string;
+    interface: string;
+    ips: string[];
+    online: boolean;
+    last_handshake: number | null;
+    status: AliceDeviceStatus;
+    matched_by: string | null;
+  }
+
+  export interface AliceWarning {
+    code:
+      | 'interface_not_captured'
+      | 'empty_allow_list'
+      | 'neighbor_source_unavailable'
+      | 'neighbor_source_partial'
+      | 'wireguard_source_unavailable'
+      | 'wireguard_source_partial'
+      | 'dhcp_source_unavailable'
+      | 'dhcp_source_partial';
+    value: string;
+  }
+
+  export type GetAliceDevices =
+    | { enabled: false }
+    | {
+        enabled: true;
+        dashboard_visible: boolean;
+        list_mode: AliceListMode;
+        source_interfaces: string[];
+        devices: AliceDevice[];
+        warnings: AliceWarning[];
+        generated_at: number;
+      };
 
   export interface GetServerCapabilities {
     sing_box_extended: 0 | 1;

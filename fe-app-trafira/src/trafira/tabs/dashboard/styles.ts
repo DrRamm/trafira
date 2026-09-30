@@ -113,6 +113,142 @@ export const styles = `
 
 .fkp_dashboard-page__widgets-section__item__row__value {}
 
+.fkp_dashboard-page__alice {
+    margin-top: 10px;
+    border: 2px var(--background-color-low, lightgray) solid;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.fkp_dashboard-page__alice--hidden {
+    display: none;
+}
+
+.fkp_dashboard-page__alice--failed {
+    color: var(--text-color-medium, #888);
+    text-align: center;
+}
+
+.fkp_dashboard-page__alice__header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fkp_dashboard-page__alice__title {
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__warning {
+    margin-top: 8px;
+    padding: 4px 10px;
+    border-left: 3px solid var(--warn-color-medium, orange);
+    background: var(--background-color-low, rgba(0, 0, 0, 0.04));
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__groups {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.fkp_dashboard-page__alice__group {
+    min-width: 0;
+    padding: 6px 10px;
+    border-radius: 4px;
+    border-left: 3px solid var(--border-color-medium, #ccc);
+    background: var(--background-color-low, rgba(0, 0, 0, 0.03));
+}
+
+.fkp_dashboard-page__alice__group--trafira {
+    border-left-color: var(--success-color-medium, green);
+}
+
+.fkp_dashboard-page__alice__group--not_captured {
+    border-left-color: var(--warn-color-medium, orange);
+}
+
+.fkp_dashboard-page__alice__group-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__group-count,
+.fkp_dashboard-page__alice__interface-name,
+.fkp_dashboard-page__alice__empty {
+    color: var(--text-color-medium, #888);
+    font-size: 0.85em;
+}
+
+.fkp_dashboard-page__alice__interface-name {
+    margin-top: 4px;
+}
+
+.fkp_dashboard-page__alice__devices {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    column-gap: 20px;
+}
+
+.fkp_dashboard-page__alice__offline {
+    margin-top: 4px;
+}
+
+.fkp_dashboard-page__alice__offline-summary {
+    cursor: pointer;
+    color: var(--text-color-medium, #888);
+    font-size: 0.85em;
+}
+
+.fkp_dashboard-page__alice__device {
+    display: grid;
+    grid-template-columns: 8px minmax(0, auto) minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: 6px;
+    line-height: 1.7;
+}
+
+.fkp_dashboard-page__alice__device > span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.fkp_dashboard-page__alice__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-color-high, #aaa);
+}
+
+.fkp_dashboard-page__alice__dot--online {
+    background: var(--success-color-medium, green);
+}
+
+.fkp_dashboard-page__alice__device-name {
+    color: var(--text-color-high);
+}
+
+.fkp_dashboard-page__alice__device-address,
+.fkp_dashboard-page__alice__tag,
+.fkp_dashboard-page__alice__device-activity {
+    color: var(--text-color-medium, #888);
+    font-size: 0.85em;
+}
+
+.fkp_dashboard-page__alice__device-activity {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
 .fkp_dashboard-page__outbound-section {
     margin-top: 10px;
     border: 2px var(--background-color-low, lightgray) solid;
